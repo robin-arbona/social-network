@@ -12,4 +12,9 @@ return function (App $app) {
         $response->getBody()->write('Hello World!');
         return $response;
     });
+
+    $app->get('/hello', \App\Action\HomeAction::class)->setName('home');
+    $app->get('/json', \App\Action\HomeJson::class)->setName('json');
+    $app->post('/users', \App\Action\UserCreateAction::class);
+    $app->get('/inscription', \App\Action\ShowUserSignup::class);
 };
