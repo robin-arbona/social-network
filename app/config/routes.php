@@ -12,4 +12,12 @@ return function (App $app) {
         $response->getBody()->write('Hello World!');
         return $response;
     });
+
+    $app->get('/home/{samir}', function (
+        ServerRequestInterface $request,
+        ResponseInterface $response,args
+    ) {
+        $response->getBody()->write('Hello '.$args['name']);
+        return $response;
+    });
 };
