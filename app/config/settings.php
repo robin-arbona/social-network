@@ -16,6 +16,10 @@ $settings['root'] = dirname(__DIR__);
 $settings['temp'] = $settings['root'] . '/tmp';
 $settings['public'] = $settings['root'] . '/public';
 $settings['urlPublic'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+
+// Client ID google auth
+$settings['CLIENT_ID'] =  '430999213891-61f6lk1jukkrrlrag1ju7l3fvqjc0ah9.apps.googleusercontent.com';
+
 // Database settings
 $settings['db'] = [
     'driver' => 'mysql',

@@ -1,6 +1,13 @@
 
 {% extends 'base.twig'%}
+
 {%  block head %}
-<meta name="google-signin-client_id" content="29971643501-v0a427sqakvdq8ljkn1qaj5n7ld9f724.apps.googleusercontent.com">
 <script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="430999213891-61f6lk1jukkrrlrag1ju7l3fvqjc0ah9.apps.googleusercontent.com">
+<script src="{{path}}/js/connexion.js" saync defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<a href="#" onclick="signOut();">Sign out</a>
 {% endblock %}

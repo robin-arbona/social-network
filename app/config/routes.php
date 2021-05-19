@@ -12,5 +12,8 @@ return function (App $app) {
         $response->getBody()->write('Hello World!');
         return $response;
     });
+
     $app->get('/connexion', \App\Action\Connexion::class);
+
+    $app->post('/googleAuth', \App\Action\UserGoogleAuth::class);
 };
