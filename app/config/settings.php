@@ -15,6 +15,7 @@ $settings = [];
 $settings['root'] = dirname(__DIR__);
 $settings['temp'] = $settings['root'] . '/tmp';
 $settings['public'] = $settings['root'] . '/public';
+$settings['urlPublic'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
 // Database settings
 $settings['db'] = [
     'driver' => 'mysql',
@@ -50,6 +51,19 @@ $settings['error'] = [
 
     // Display error details in error log
     'log_error_details' => true,
+];
+// Twig settings
+$settings['twig'] = [
+    // Template paths
+    'paths' => [
+        __DIR__ . '/../templates',
+    ],
+    // Twig environment options
+    'options' => [
+        // Should be set to true in production
+        'cache_enabled' => false,
+        'cache_path' => __DIR__ . '/../tmp/twig',
+    ],
 ];
 
 return $settings;

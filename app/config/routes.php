@@ -17,4 +17,5 @@ return function (App $app) {
     $app->get('/json', \App\Action\HomeJson::class)->setName('json');
     $app->post('/users', \App\Action\UserCreateAction::class);
     $app->get('/inscription', \App\Action\ShowUserSignup::class);
+    $app->get('/hello/twig', \App\Action\HelloAction::class);
 };
