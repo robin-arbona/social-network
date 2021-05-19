@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 
-final class HelloAction extends Action
+final class Connexion extends Action
 {
     protected $twig;
 
@@ -20,13 +20,8 @@ final class HelloAction extends Action
         ServerRequestInterface $request,
         ResponseInterface $response
     ): ResponseInterface {
-        $viewData = [
-            'name' => 'World',
-            'notifications' => [
-                'message' => 'You are good!'
-            ],
-        ];
 
-        return $this->twig->render($response, 'hello.twig', $viewData);
+
+        return $this->twig->render($response, 'connexion.twig');
     }
 }
