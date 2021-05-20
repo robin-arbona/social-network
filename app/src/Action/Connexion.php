@@ -22,6 +22,7 @@ final class Connexion extends Action
     ): ResponseInterface {
 
 
+
         return $this->twig->render($response, 'connexion.twig');
     }
 }
