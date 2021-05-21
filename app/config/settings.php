@@ -16,7 +16,7 @@ $settings['root'] = dirname(__DIR__);
 $settings['temp'] = $settings['root'] . '/tmp';
 $settings['public'] = $settings['root'] . '/public';
 $settings['urlPublic'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-
+$settings['urlMain'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/');
 // Client ID google auth
 $settings['CLIENT_ID'] =  '779360460594-5hbuevfqve7uur0a2ds2284se901qf2l.apps.googleusercontent.com';
 

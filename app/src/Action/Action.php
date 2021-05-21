@@ -14,9 +14,12 @@ class Action
 
     public function __construct(Twig $twig, ContainerInterface $container)
     {
-        $settings = $container->get('settings')['urlPublic'];
+        $urlPublic = $container->get('settings')['urlPublic'];
+        $urlMain = $container->get('settings')['urlMain'];
+
         $this->twig = $twig;
         $environment = $twig->getEnvironment();
-        $environment->addGlobal('path', $settings);
+        $environment->addGlobal('pathPublic', $urlPublic);
+        $environment->addGlobal('pathMain', $urlMain);
     }
 }

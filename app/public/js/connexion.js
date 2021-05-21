@@ -1,3 +1,6 @@
+const pathMain = $('#pathMain').val();
+console.log(pathMain);
+
 function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     console.log('Prodilfe', profile)
@@ -10,9 +13,9 @@ function onSignIn(googleUser) {
     let token = auth.id_token;
 
     let form = new FormData();
-    form.append("id_token",token)
+    form.append("id_token", token)
 
-    fetch("/googleAuth", {
+    fetch(pathMain + "/googleAuth", {
         method: "POST",
         body: form
     })
