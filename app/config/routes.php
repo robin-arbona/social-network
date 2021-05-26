@@ -13,21 +13,4 @@ return function (App $app) {
     $app->get('/wall', \App\Action\Wall::class);
 };
 
-$pays=array(
-    array('name'=>'USA'),
-    array('name'=>'France'),
-    array('name'=>'Algerie'),
-    array('name'=>'Maroc'),
-    array('name'=>'Angleterre'),
-    
-);
 
-$name="Ok many";
-
-
-$app->get('/pays', function (ServerRequestInterface $request, ResponseInterface $response) use ($name) {
-    $response->getBody()->write($name);
-    return $response;
-});
-
-$app->run();
