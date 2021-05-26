@@ -1,15 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
 
-{% extends 'base.twig'%}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="{{CLIENT_ID}}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="{{pathPublic}}/css/style.css" />
+    <script src="{{pathPublic}}/js/connexion.js" async defer></script>
+    <title>- My Webpage</title>
+</head>
 
-{%  block head %}
-{{parent()}}
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="{{CLIENT_ID}}">
-<script src="{{pathPublic}}/js/connexion.js" async defer></script>
-{% endblock %}
+<body>
+    <input type="hidden" id="pathMain" value="{{pathMain}}">
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <p>Hello</p>
+</body>
 
-{% block content %}
-<input type="hidden" id="pathMain" value="{{pathMain}}">
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
-<p>Hello</p>
-{% endblock %}
+<footer>
+    &copy; Copyright 2011 by <a href="http://domain.invalid/">you</a>.
+</footer>
+
+</html>
