@@ -1,5 +1,5 @@
 const httpServer = require("http").createServer();
-const hostname = 'bonjour.fr';
+const hostname = 'social.network';
 const port = 3001;
 const io = require("socket.io")(httpServer, {
     cors: {

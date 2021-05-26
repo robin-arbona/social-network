@@ -1,2 +1,2 @@
 console.log("Main lié")
-io("bonjour.fr:3001");
+io("social.network:3001");
