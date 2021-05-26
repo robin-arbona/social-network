@@ -16,20 +16,7 @@ return function (App $app) {
 
     $app->post('/googleAuth', \App\Action\UserGoogleAuth::class);
 
-    $pays=array(
-        array('name'=>'USA'),
-        array('name'=>'France'),
-        array('name'=>'Algerie'),
-        array('name'=>'Maroc'),
-        array('name'=>'Angleterre'),
-        
-    );
-   
-
-    // $app->get('/pays',function( ServerRequestInterface $request , ResponseInterface $response,$args) use ($pays){
-    //     $response->getBody()->write($pays);
-    //     return $response->withJson($pays);
-    // });
+    $app->get('/wall', \App\Action\Wall::class);
 };
 
 $pays=array(
