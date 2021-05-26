@@ -9,9 +9,9 @@ function onSignIn(googleUser) {
         type: "POST",
         data: {id_token: token}
     }).done(()=>{
-        console.log("Success")
+        window.location = pathMain + "/wall";
     }).fail(()=>{
-        console.log("Fail")
+        console.log("Fail");
     })
 
 }
