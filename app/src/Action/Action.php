@@ -16,10 +16,12 @@ class Action
     {
         $urlPublic = $container->get('settings')['urlPublic'];
         $urlMain = $container->get('settings')['urlMain'];
+        $CLIENT_ID = $container->get('settings')['CLIENT_ID'];
 
         $this->twig = $twig;
         $environment = $twig->getEnvironment();
         $environment->addGlobal('pathPublic', $urlPublic);
         $environment->addGlobal('pathMain', $urlMain);
+        $environment->addGlobal('CLIENT_ID', $CLIENT_ID);
     }
 }

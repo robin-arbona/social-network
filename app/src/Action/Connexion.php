@@ -21,8 +21,6 @@ final class Connexion extends Action
         ResponseInterface $response
     ): ResponseInterface {
 
-
-
         return $this->twig->render($response, 'connexion.twig');
     }
 }
