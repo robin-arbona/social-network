@@ -115,7 +115,7 @@ CREATE TABLE `user` (
   `user_name` varchar(255) NOT NULL,
   `user_firstname` varchar(255) NOT NULL,
   `user_mail` varchar(255) NOT NULL,
-  `user_picture` blob NOT NULL
+  `user_picture` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
