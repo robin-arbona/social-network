@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `comment` (
   `comment_pk_id` int(11) NOT NULL,
   `comment_name` varchar(255) NOT NULL,
+  `post_content` text NOT NULL,
   `comment_fk_post_id` int(11) NOT NULL,
   `comment_fk_likes_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

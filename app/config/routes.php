@@ -11,4 +11,8 @@ return function (App $app) {
     $app->post('/googleAuth', \App\Action\UserAuth::class);
 
     $app->get('/wall', \App\Action\Wall::class);
+
+    $app->get('/post/new/form', \App\Action\ShowPostCreation::class);
+
+    $app->get('/post/new/db', \App\Action\PostCreation::class);
 };

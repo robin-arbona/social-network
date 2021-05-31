@@ -2,17 +2,17 @@
 
 namespace App\Action;
 
-use App\Domain\User\Service\UserCreator;
+use App\Domain\Post\Service\PostCreator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class UserCreateAction
+final class PostAction
 {
-    private $userCreator;
+    private $postCreator;
 
-    public function __construct(UserCreator $userCreator)
+    public function __construct(PostCreator $postCreator)
     {
-        $this->userCreator = $userCreator;
+        $this->postCreator = $postCreator;
     }
 
     public function __invoke(
@@ -23,18 +23,19 @@ final class UserCreateAction
         $data = (array)$request->getParsedBody();
 
         // Invoke the Domain with inputs and retain the result
-        $userId = $this->userCreator->createUser($data);
+        $result = $this->postCreator->createPost($data);
 
-        // Transform the result into the JSON representation
-        $result = [
-            'user_id' => $userId
-        ];
+        if ($result["success"]) {
+            $status = 201;
+        } else {
+            $status = 401;
+        }
 
         // Build the HTTP response
         $response->getBody()->write((string)json_encode($result));
 
         return $response
             ->withHeader('Content-Type', 'application/json')
-            ->withStatus(201);
+            ->withStatus($status);
     }
 }
