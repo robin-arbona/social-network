@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `comment` (
   `comment_pk_id` int(11) NOT NULL,
   `comment_name` varchar(255) NOT NULL,
-  `post_content` text NOT NULL,
   `comment_fk_post_id` int(11) NOT NULL,
   `comment_fk_likes_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -68,8 +67,9 @@ CREATE TABLE `likes` (
 CREATE TABLE `post` (
   `post_pk_id` int(11) NOT NULL,
   `post_name` varchar(255) NOT NULL,
-  `post_date` datetime NOT NULL,
-  `post_picture` blob NOT NULL,
+  `post_content` text NOT NULL,
+  `post_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `post_picture` VARCHAR(255) NOT NULL,
   `post_fk_user_id` int(11) NOT NULL,
   `post_fk_likes_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

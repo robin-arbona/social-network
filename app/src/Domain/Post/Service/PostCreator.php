@@ -32,12 +32,14 @@ final class PostCreator
      *
      * @return int The new user ID
      */
-    public function createPost(array $data): int
+    public function createPost(array $data): array
     {
 
         $this->validateNewPost($data);
 
-        $id = $this->repository->newPost($data, $_SESSION["user"]["id"]);
+        $data["post_fk_user_id"] = $_SESSION["user"]["id"];
+
+        $id = $this->repository->newPost($data);
 
         $result = [];
 
@@ -70,14 +72,10 @@ final class PostCreator
 
         // Here you can also use your preferred validation library
 
-        if (empty($data['username'])) {
-            $errors['username'] = 'Input required';
-        }
-
-        if (empty($data['email'])) {
-            $errors['email'] = 'Input required';
-        } elseif (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-            $errors['email'] = 'Invalid email address';
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                $errors[$key] = 'Input required';
+            }
         }
 
         if ($errors) {

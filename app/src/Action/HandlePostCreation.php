@@ -3,10 +3,11 @@
 namespace App\Action;
 
 use App\Domain\Post\Service\PostCreator;
+use App\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class PostAction
+final class HandlePostCreation
 {
     private $postCreator;
 
@@ -23,12 +24,19 @@ final class PostAction
         $data = (array)$request->getParsedBody();
 
         // Invoke the Domain with inputs and retain the result
-        $result = $this->postCreator->createPost($data);
+        try {
+            $result = $this->postCreator->createPost($data);
+        } catch (ValidationException $e) {
+            $result["message"] = $e->getMessage();
+            $result["errors"] = $e->getErrors();
+        }
 
-        if ($result["success"]) {
+        if (isset($result["success"]) && $result["success"]) {
             $status = 201;
+        } elseif (isset($result["success"]) && !$result["success"]) {
+            $status = 500;
         } else {
-            $status = 401;
+            $status = 422;
         }
 
         // Build the HTTP response

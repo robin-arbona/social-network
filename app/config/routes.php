@@ -14,5 +14,5 @@ return function (App $app) {
 
     $app->get('/post/new/form', \App\Action\ShowPostCreation::class);
 
-    $app->get('/post/new/db', \App\Action\PostCreation::class);
+    $app->post('/post/new/db', \App\Action\HandlePostCreation::class);
 };

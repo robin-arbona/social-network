@@ -1,5 +1,5 @@
 <div class="container">
-    <form action="{{pathMain}}/post/new/db">
+    <form action="{{pathMain}}/post/new/db" method="POST">
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
@@ -9,7 +9,7 @@
         <div class="field">
             <label class="label">Picture</label>
             <div class="control">
-            <input class="input" type="text" name="Picture" placeholder="Picture file name">
+            <input class="input" type="text" name="picture" placeholder="Picture file name">
             </div>
         </div>
         <textarea class="textarea" name="content" placeholder="e.g. Hello world"></textarea>
