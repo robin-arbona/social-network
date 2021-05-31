@@ -26,11 +26,10 @@ final class PostCreator
     }
 
     /**
-     * Create a new user.
+     * Create a new post.
      *
      * @param array $data The form data
      *
-     * @return int The new user ID
      */
     public function createPost(array $data): array
     {
@@ -51,7 +50,6 @@ final class PostCreator
             $result["success"] = false;
             $result["message"] = "An error occured while emptenting to add the new post in database.";
         }
-
 
         return $result;
     }

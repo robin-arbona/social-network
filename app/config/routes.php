@@ -15,4 +15,6 @@ return function (App $app) {
     $app->get('/post/new/form', \App\Action\ShowPostCreation::class);
 
     $app->post('/post/new/db', \App\Action\HandlePostCreation::class);
+
+    $app->get('/post[/{page}[/{user_id}]]', \App\Action\GetPostAction::class);
 };
