@@ -8,7 +8,7 @@ function onSignIn(googleUser) {
         url: pathMain + "/googleAuth",
         type: "POST",
         data: {id_token: token}
-    }).done(()=>{
+    }).done((reponse)=>{
         window.location = pathMain + "/wall";
     }).fail(()=>{
         console.log("Fail");

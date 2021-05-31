@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Repository\UserCreatorRepository;
+use App\Domain\User\Repository\UserRepository;
 use App\Exception\ValidationException;
 
 /**
@@ -11,16 +11,16 @@ use App\Exception\ValidationException;
 final class UserCreator
 {
     /**
-     * @var UserCreatorRepository
+     * @var UserRepository
      */
     private $repository;
 
     /**
      * The constructor.
      *
-     * @param UserCreatorRepository $repository The repository
+     * @param UserRepository $repository The repository
      */
-    public function __construct(UserCreatorRepository $repository)
+    public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -34,17 +34,16 @@ final class UserCreator
      */
     public function createUser(array $data): int
     {
-        // Input validation
-        $this->validateNewUser($data);
 
-        // Insert user
-        $userId = $this->repository->insertUser($data);
+        if (!$id = $this->repository->userInDb($data)) {
+            $id = $this->repository->insertUser($data);
+        }
 
-        // Logging here: User created successfully
-        //$this->logger->info(sprintf('User created successfully: %s', $userId));
-
-        return $userId;
+        $_SESSION["user"] = $data;
+        $_SESSION["user"]["id"] = $id;
+        return $id;
     }
+
 
     /**
      * Input validation.

@@ -8,9 +8,7 @@ return function (App $app) {
 
     $app->get('/', \App\Action\Connexion::class);
 
-    $app->post('/googleAuth', \App\Action\UserGoogleAuth::class);
+    $app->post('/googleAuth', \App\Action\UserAuth::class);
 
     $app->get('/wall', \App\Action\Wall::class);
 };
-
-

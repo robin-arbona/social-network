@@ -17,19 +17,26 @@ final class UserGoogleVerificator
     private $CLIENT_ID;
 
     /**
+     * @var UserCreator
+     */
+    private $userCreator;
+
+    /**
      * The constructor.
      *
-     * @param ContainerInterface $repository The repository
+     * @param ContainerInterface 
+     * @param UserCreator
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, UserCreator $userCreator)
     {
         $this->CLIENT_ID = $container->get('settings')['CLIENT_ID'];
+        $this->userCreator = $userCreator;
     }
 
     /**
-     * Create a new user.
+     * Check id_token, create new user if needed.
      *
-     * @param array $data The form data
+     * @param array $data from ajax (id_token)
      *
      * @return array ["success"=bool,"message"=string]
      */
@@ -42,8 +49,8 @@ final class UserGoogleVerificator
         $result = [];
 
         if ($payload) {
-            $_SESSION["user"] = $payload;
             $result["success"] = true;
+            $result["id"] = $this->userCreator->createUser($payload);
             $result["message"] = "Token successfully verified.";
         } else {
             $result["success"] = false;
