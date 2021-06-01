@@ -11,4 +11,6 @@ return function (App $app) {
     $app->post('/googleAuth', \App\Action\UserAuth::class);
 
     $app->get('/wall', \App\Action\Wall::class);
+
+    $app->get('/profil', \App\Action\Profil::class);
 };
