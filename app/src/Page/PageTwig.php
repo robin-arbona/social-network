@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Action;
+namespace App\Page;
 
 use Psr\Container\ContainerInterface;
 use DI\ContainerBuilder;
@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 
-class Action
+class PageTwig
 {
     protected $twig;
 

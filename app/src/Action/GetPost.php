@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class GetPostAction
+final class GetPost
 {
     private $postFetcher;
     private $postsPerPage;
