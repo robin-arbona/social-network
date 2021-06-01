@@ -21,6 +21,9 @@ $settings['urlMain'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/');
 // Client ID google auth
 $settings['CLIENT_ID'] =  '779360460594-5hbuevfqve7uur0a2ds2284se901qf2l.apps.googleusercontent.com';
 
+// Post settings
+$settings['postsPerPage'] = 10;
+
 // Database settings
 $settings['db'] = [
     'driver' => 'mysql',
@@ -57,6 +60,7 @@ $settings['error'] = [
     // Display error details in error log
     'log_error_details' => true,
 ];
+
 // Twig settings
 $settings['twig'] = [
     // Template paths

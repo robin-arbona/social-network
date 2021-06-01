@@ -13,4 +13,9 @@ return function (App $app) {
     $app->get('/wall', \App\Action\Wall::class);
 
     $app->get('/profil', \App\Action\Profil::class);
+    $app->get('/post/new/form', \App\Action\ShowPostCreation::class);
+
+    $app->post('/post/new/db', \App\Action\HandlePostCreation::class);
+
+    $app->get('/post[/{page}[/{user_id}]]', \App\Action\GetPostAction::class);
 };

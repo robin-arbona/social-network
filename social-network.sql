@@ -1,30 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : mer. 26 mai 2021 à 15:52
--- Version du serveur :  10.4.17-MariaDB
--- Version de PHP : 7.4.15
+-- Host: localhost:8889
+-- Generation Time: Jun 01, 2021 at 09:19 AM
+-- Server version: 5.7.30
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
--- Base de données : `social-network`
+-- Database: `social-network`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `comment`
+-- Table structure for table `comment`
 --
 
 CREATE TABLE `comment` (
@@ -37,7 +30,7 @@ CREATE TABLE `comment` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `education`
+-- Table structure for table `education`
 --
 
 CREATE TABLE `education` (
@@ -49,7 +42,7 @@ CREATE TABLE `education` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `likes`
+-- Table structure for table `likes`
 --
 
 CREATE TABLE `likes` (
@@ -61,22 +54,43 @@ CREATE TABLE `likes` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `post`
+-- Table structure for table `post`
 --
 
 CREATE TABLE `post` (
   `post_pk_id` int(11) NOT NULL,
   `post_name` varchar(255) NOT NULL,
-  `post_date` datetime NOT NULL,
-  `post_picture` blob NOT NULL,
+  `post_content` text NOT NULL,
+  `post_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `post_picture` varchar(255) NOT NULL,
   `post_fk_user_id` int(11) NOT NULL,
   `post_fk_likes_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `post`
+--
+
+INSERT INTO `post` (`post_pk_id`, `post_name`, `post_content`, `post_date`, `post_picture`, `post_fk_user_id`, `post_fk_likes_id`) VALUES
+(1, 'heyo', 'salut mes copains', '2021-05-31 14:56:30', 'yous.jpg', 3, NULL),
+(2, 'hey', 'salut mes copains', '2021-05-31 15:20:56', 'you.jpg', 3, NULL),
+(3, 'sdc', 'jhzdvjhed', '2021-06-01 09:10:07', 'sdcsdc,jog', 3, NULL),
+(4, 'qsd', 'qsdqsd', '2021-06-01 10:50:36', 'qsdqsdqsdqds', 3, NULL),
+(5, 'azdazd', 'azdazdadz', '2021-06-01 10:57:44', 'azdadza', 3, NULL),
+(6, 'azdazd', 'azdazdadz', '2021-06-01 10:58:15', 'azdadza', 3, NULL),
+(7, 'azdazd', 'azdazdadz', '2021-06-01 10:59:10', 'azdadza', 3, NULL),
+(8, 'azdazd', 'azdazdadz', '2021-06-01 10:59:14', 'azdadza', 3, NULL),
+(9, 'azdazd', 'azdazdadz', '2021-06-01 10:59:18', 'azdadza', 3, NULL),
+(10, 'azdazd', 'azdazdadz', '2021-06-01 10:59:22', 'azdadza', 3, NULL),
+(11, 'azdazd', 'azdazdadz', '2021-06-01 10:59:26', 'azdadza', 3, NULL),
+(12, 'azdazd', 'azdazdadz', '2021-06-01 10:59:30', 'azdadza', 3, NULL),
+(13, 'azdazd', 'azdazdadz', '2021-06-01 11:09:51', 'azdadza', 3, NULL),
+(14, 'pierrreee', 'azazazazazazaza', '2021-06-01 11:17:22', 'azazaz', 4, NULL);
+
 -- --------------------------------------------------------
 
 --
--- Structure de la table `profil`
+-- Table structure for table `profil`
 --
 
 CREATE TABLE `profil` (
@@ -89,7 +103,7 @@ CREATE TABLE `profil` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `rights`
+-- Table structure for table `rights`
 --
 
 CREATE TABLE `rights` (
@@ -97,7 +111,7 @@ CREATE TABLE `rights` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `rights`
+-- Dumping data for table `rights`
 --
 
 INSERT INTO `rights` (`rights_pk_id`) VALUES
@@ -107,7 +121,7 @@ INSERT INTO `rights` (`rights_pk_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -118,10 +132,18 @@ CREATE TABLE `user` (
   `user_picture` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_pk_id`, `user_name`, `user_firstname`, `user_mail`, `user_picture`) VALUES
+(3, 'ARBONA', 'Robin', 'robin.arbona@laplateforme.io', 'https://lh3.googleusercontent.com/a/AATXAJwMs81yGY84ReZ5QzYXqPOOz1gM4csZC0NqZjcN=s96-c'),
+(4, 'MALARDIER', 'Pierre', 'pierre.malardier@laplateforme.io', 'https://lh3.googleusercontent.com/a-/AOh14Gg75LONUMSN_0v3J7gPxUsOu1FQ9FSYqhcxS-rv=s96-c');
+
 -- --------------------------------------------------------
 
 --
--- Structure de la table `wexperience`
+-- Table structure for table `wexperience`
 --
 
 CREATE TABLE `wexperience` (
@@ -131,11 +153,11 @@ CREATE TABLE `wexperience` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `comment`
+-- Indexes for table `comment`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`comment_pk_id`),
@@ -143,19 +165,19 @@ ALTER TABLE `comment`
   ADD KEY `comment_fk_likes_id` (`comment_fk_likes_id`);
 
 --
--- Index pour la table `education`
+-- Indexes for table `education`
 --
 ALTER TABLE `education`
   ADD PRIMARY KEY (`education_pk_id`);
 
 --
--- Index pour la table `likes`
+-- Indexes for table `likes`
 --
 ALTER TABLE `likes`
   ADD PRIMARY KEY (`likes_pk_id`);
 
 --
--- Index pour la table `post`
+-- Indexes for table `post`
 --
 ALTER TABLE `post`
   ADD PRIMARY KEY (`post_pk_id`),
@@ -163,7 +185,7 @@ ALTER TABLE `post`
   ADD KEY `post_fk_likes_id` (`post_fk_likes_id`);
 
 --
--- Index pour la table `profil`
+-- Indexes for table `profil`
 --
 ALTER TABLE `profil`
   ADD PRIMARY KEY (`profil_pk_id`),
@@ -172,102 +194,97 @@ ALTER TABLE `profil`
   ADD KEY `profil_fk_user_id` (`profil_fk_user_id`);
 
 --
--- Index pour la table `rights`
+-- Indexes for table `rights`
 --
 ALTER TABLE `rights`
   ADD PRIMARY KEY (`rights_pk_id`);
 
 --
--- Index pour la table `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_pk_id`);
 
 --
--- Index pour la table `wexperience`
+-- Indexes for table `wexperience`
 --
 ALTER TABLE `wexperience`
   ADD PRIMARY KEY (`wexperience_pk_id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `comment`
+-- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
   MODIFY `comment_pk_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `education`
+-- AUTO_INCREMENT for table `education`
 --
 ALTER TABLE `education`
   MODIFY `education_pk_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `likes`
+-- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
   MODIFY `likes_pk_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `post`
+-- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_pk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `post_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT pour la table `profil`
+-- AUTO_INCREMENT for table `profil`
 --
 ALTER TABLE `profil`
   MODIFY `profil_pk_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `rights`
+-- AUTO_INCREMENT for table `rights`
 --
 ALTER TABLE `rights`
   MODIFY `rights_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1338;
 
 --
--- AUTO_INCREMENT pour la table `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `wexperience`
+-- AUTO_INCREMENT for table `wexperience`
 --
 ALTER TABLE `wexperience`
   MODIFY `wexperience_pk_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `comment`
+-- Constraints for table `comment`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `comment_fk_likes_id` FOREIGN KEY (`comment_fk_likes_id`) REFERENCES `likes` (`likes_pk_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `comment_fk_post_id` FOREIGN KEY (`comment_fk_post_id`) REFERENCES `post` (`post_pk_id`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `post`
+-- Constraints for table `post`
 --
 ALTER TABLE `post`
   ADD CONSTRAINT `post_fk_likes_id` FOREIGN KEY (`post_fk_likes_id`) REFERENCES `likes` (`likes_pk_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `post_fk_user_id` FOREIGN KEY (`post_fk_user_id`) REFERENCES `user` (`user_pk_id`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `profil`
+-- Constraints for table `profil`
 --
 ALTER TABLE `profil`
   ADD CONSTRAINT `profil_fk_education_id` FOREIGN KEY (`profil_fk_education_id`) REFERENCES `education` (`education_pk_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `profil_fk_user_id` FOREIGN KEY (`profil_fk_user_id`) REFERENCES `user` (`user_pk_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `profil_fk_wexperience_id` FOREIGN KEY (`profil_fk_wexperience_id`) REFERENCES `wexperience` (`wexperience_pk_id`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
