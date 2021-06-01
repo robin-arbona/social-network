@@ -2,7 +2,7 @@ console.log("Main lié")
 //io("social.network:3001");
 
 const pathMain = $('#pathMain').val();
-console.log(window.location.href.slice(-1));
+window.location.href.slice(-1);
 
 
 function onSignIn(googleUser) {
