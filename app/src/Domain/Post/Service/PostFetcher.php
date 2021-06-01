@@ -34,16 +34,26 @@ final class PostFetcher
      */
     public function fetch(array $args = [], int $postsPerPage = 10): array
     {
-        $page = isset($args["page"]) ? $args["page"] : 1;
+        $page =  isset($args["page"]) ? (int) $args["page"] : 1;
+
+        $offset = $page == 1 ? 0 : ($page - 1) * $postsPerPage;
+
         if (isset($args["user_id"])) {
-            $posts = $this->repository->getPostsBydId($args["user_id"], $page, $postsPerPage);
+            $posts = $this->repository->getPostsBydId($args["user_id"], $offset, $postsPerPage);
         } else {
-            $posts = $this->repository->getPosts($page, $postsPerPage);
+            $posts = $this->repository->getPosts($offset, $postsPerPage);
         }
 
         $results["success"] =  empty($posts) ? false : true;
 
+        if ($results["success"]) {
+            $results["resultsNb"] = $this->repository->countPosts(isset($args["user_id"]) ? $args["user_id"] : 0);
+            $results["currentPage"] = $page;
+            $results["totalPage"] = ceil($results["resultsNb"] / $postsPerPage);
+        }
+
         $results["posts"] = $posts;
+
         return $results;
     }
 }

@@ -53,34 +53,44 @@ final class PostRepository
     /**
      * Get posts
      * 
-     * @param int $page - Page result
+     * @param int $offset - Result offset
      * 
-     * @param int $postPerPage - Nb of post in a page result
+     * @param int $limit - Nb max of result
      * 
      * @return array $posts - set of result
      */
-    public function getPosts(int $page = 1, int $postPerPage = 10): array
+    public function getPosts(int $offset = 0, int $limit = 100): array
     {
-        $offset = $page = 1 ? 1 : ($page - 1) * $postPerPage;
-
-        return $this->connection->query("SELECT * FROM `post` LIMIT $postPerPage OFFSET $offset")->fetchAll();
+        return $this->connection->query("SELECT * FROM `post` LIMIT $limit OFFSET $offset;")->fetchAll();
     }
 
     /**
      * Get posts by id
      * 
-     * @param int $id - Page result
+     * @param int $userId - user ID
      * 
-     * @param int $page - Page result
+     * @param int $offset - Result offset
      * 
-     * @param int $postPerPage - Nb of post in a page result
+     * @param int $limit - Nb max of result
      * 
      * @return array $posts - set of result
      */
-    public function getPostsBydId(int $userId, int $page = 1, int $postPerPage = 10): array
+    public function getPostsBydId(int $userId, int $offset = 0, int $limit = 100): array
     {
-        $offset = $page = 1 ? 1 : ($page - 1) * $postPerPage;
+        return $this->connection->query("SELECT * FROM `post` WHERE post_fk_user_id = $userId LIMIT $limit OFFSET $offset;")->fetchAll();
+    }
 
-        return $this->connection->query("SELECT * FROM `post` LIMIT $postPerPage OFFSET $offset")->fetchAll();
+    /**
+     * Count total nb of posts
+     * 
+     * @param int $userId - user ID
+     * 
+     * @return int 
+     */
+    public function countPosts(int $userId = 0): int
+    {
+        $sql = "SELECT count(*) FROM `post` ";
+        $sql = $userId == 0 ? $sql : $sql . "WHERE post_fk_user_id = $userId";
+        return $this->connection->query($sql . ";")->fetchColumn();
     }
 }
