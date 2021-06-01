@@ -7,7 +7,7 @@ use App\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class HandlePostCreation
+final class CreatePost
 {
     private $postCreator;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Action;
+namespace App\Page;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 
-final class ShowPostCreation extends Action
+final class PageWall extends PageTwig
 {
     protected $twig;
 
@@ -21,6 +21,6 @@ final class ShowPostCreation extends Action
         ResponseInterface $response
     ): ResponseInterface {
 
-        return $this->twig->render($response, 'post.edit.twig');
+        return $this->twig->render($response, 'wall.twig');
     }
 }
