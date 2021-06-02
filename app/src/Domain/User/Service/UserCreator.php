@@ -40,7 +40,7 @@ final class UserCreator
         }
 
         $_SESSION["user"] = $data;
-        $_SESSION["user"]["id"] = $id;
+        $_SESSION["user"]["id"] = (int) $id;
         return $id;
     }
 

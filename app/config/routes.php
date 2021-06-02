@@ -10,7 +10,7 @@ return function (App $app) {
 
     $app->post('/googleAuth', \App\Action\UserAuth::class);
 
-    $app->get('/wall', \App\Page\PageWall::class);
+    $app->get('/wall[/{user_id}]', \App\Page\PageWall::class);
 
     $app->get('/profil', \App\Action\Profil::class);
 
@@ -19,4 +19,6 @@ return function (App $app) {
     $app->post('/post/new/db', \App\Action\CreatePost::class);
 
     $app->get('/post[/{page}[/{user_id}]]', \App\Action\GetPost::class);
+
+    $app->get('/user[/{user_id}]', \App\Action\GetUser::class);
 };
