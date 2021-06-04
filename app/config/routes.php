@@ -12,7 +12,7 @@ return function (App $app) {
 
     $app->get('/wall[/{user_id}]', \App\Page\PageWall::class);
 
-    $app->get('/profil', \App\Action\Profil::class);
+    $app->get('/profil', \App\Page\PageProfil::class);
 
     $app->get('/post/new/form', \App\Page\ComponentFormPostCreation::class);
 

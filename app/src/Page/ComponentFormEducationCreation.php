@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Action;
+namespace App\Page;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 
-final class Profil extends Action
+final class ComponentFormEducationCreation extends PageTwig
 {
     protected $twig;
 
@@ -21,6 +21,6 @@ final class Profil extends Action
         ResponseInterface $response
     ): ResponseInterface {
 
-        return $this->twig->render($response, 'profil.twig');
+        return $this->twig->render($response, 'education.edit.twig');
     }
 }
