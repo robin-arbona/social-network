@@ -38,6 +38,7 @@ final class PostFetcher
 
         $offset = $page == 1 ? 0 : ($page - 1) * $postsPerPage;
 
+        //Fetch Post
         if (isset($args["user_id"])) {
             $posts = $this->repository->getPostsBydId($args["user_id"], $offset, $postsPerPage);
         } else {

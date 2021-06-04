@@ -2,6 +2,7 @@
 
 namespace App\Action;
 
+use App\Domain\Comment\Service\CommentFetcher;
 use App\Domain\Post\Service\PostFetcher;
 use App\Exception\ValidationException;
 use Psr\Container\ContainerInterface;
@@ -13,9 +14,10 @@ final class GetPost
     private $postFetcher;
     private $postsPerPage;
 
-    public function __construct(PostFetcher $postFetcher, ContainerInterface $container)
+    public function __construct(ContainerInterface $container, PostFetcher $postFetcher, CommentFetcher $commentFetcher)
     {
         $this->postFetcher = $postFetcher;
+        $this->commentFetcher = $commentFetcher;
         $this->postsPerPage = $container->get('settings')['postsPerPage'];
     }
 
@@ -24,12 +26,17 @@ final class GetPost
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        // Collect input from the HTTP request
-
 
         // Invoke the Domain with inputs and retain the result
-
+        // get posts
         $result = $this->postFetcher->fetch($args, $this->postsPerPage);
+
+        // Get matching comments
+        $result = $this->commentFetcher->fetch($result);
+
+        // Get matching likes 
+        //$result = $this->likesFetcher->fetch($result);
+
 
         if ($result["success"]) {
             $status = 200;

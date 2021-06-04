@@ -1,20 +1,24 @@
+console.log('wall lié')
+
 document.addEventListener('DOMContentLoaded',()=>{
     let path = document.querySelector('#pathMain').getAttribute('value')
     let urlParsed = window.location.pathname.split('/')
     let param= urlParsed[urlParsed.indexOf('wall')+1] != undefined ? urlParsed[urlParsed.indexOf('wall')+1] : null;
     let target = document.querySelector('#loadContent');
+    console.log("Before page loader instanciation");
     var pageLoader = new PageLoader(path+'/post',param,target)
 })
 
 
 class PageLoader {
     constructor(APIEntryPoint,param = null,target){
+        console.log('Page loader start');
         this.entryPoint = APIEntryPoint;
         this.param = param;
         this.target = target;
         this.currentPage = 1;
         this.totalPage = 1;
-        this.initIntersectionObserver()
+        this.initIntersectionObserver();
     }
     initIntersectionObserver(){
         let options = {
@@ -23,8 +27,10 @@ class PageLoader {
             threshold: 1.0
         }
         let callback = function(entries, observer) {
+            console.log("Callback start")
             entries.forEach(entry => {
                 if(entry.intersectionRatio == 1 ){
+                    console.log("Trying to load more content");
                     this.setTargetMsg('Loading..');
                     this.loadContent();
                 }
@@ -72,7 +78,7 @@ class PageLoader {
                 <div class="media">
                     <div class="media-left">
                     <figure class="image is-48x48">
-                        <img src="${post.user_picture}" alt="Placeholder image">
+                        <img class="is-rounded" src="${post.user_picture}" alt="Placeholder image">
                     </figure>
                     </div>
                     <div class="media-content">
