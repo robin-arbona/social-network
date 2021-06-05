@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 class PageLoader {
     constructor(APIEntryPoint,param = null,target){
-        console.log('Page loader start');
         this.entryPoint = APIEntryPoint;
         this.param = param;
         this.target = target;
@@ -27,10 +26,8 @@ class PageLoader {
             threshold: 1.0
         }
         let callback = function(entries, observer) {
-            console.log("Callback start")
             entries.forEach(entry => {
                 if(entry.intersectionRatio == 1 ){
-                    console.log("Trying to load more content");
                     this.setTargetMsg('Loading..');
                     this.loadContent();
                 }
@@ -67,33 +64,59 @@ class PageLoader {
     displayResults(results){
         results.forEach(result => {
             let postElement = document.createElement("div");
-            postElement.innerHTML = this.formatePost(result);
+            postElement.innerHTML = formatPost(result);
             document.querySelector(".post").appendChild(postElement);
         });
     }
-    formatePost(post){
-        return `
-        <div class="card">
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-left">
-                    <figure class="image is-48x48">
-                        <img class="is-rounded" src="${post.user_picture}" alt="Placeholder image">
-                    </figure>
-                    </div>
-                    <div class="media-content">
-                        <p class="title is-4">${post.post_name}</p>
-                        <p class="subtitle is-6">@${post.user_name} ${post.user_firstname}</p>
-                    </div>
-                </div>
-                <div class="content">
-                    ${post.post_content}
-                    <br>
-                    <time datetime="2016-1-1">${post.post_date}</time>
-                </div>
-            </div>
-        </div>`
-    }
 }
 
+const formatPost = (post) => {
+    let comments = post.comments.length > 0
+        ? post.comments.map(comment => formatComment(comment)).join('') 
+        : '<div>no comment</div>';
+    let postLikes =  formatLikes(post.likes);
+    return `
+    <div class="card">
+        <div class="card-content">
+            <div class="media">
+                <div class="media-left">
+                <figure class="image is-48x48">
+                    <img class="is-rounded" src="${post.user_picture}" alt="Placeholder image">
+                </figure>
+                </div>
+                <div class="media-content">
+                    <p class="title is-4">${post.post_name}</p>
+                    <p class="subtitle is-6">@${post.user_name} ${post.user_firstname}</p>
+                </div>
+            </div>
+            <div class="content">
+                ${post.post_content}
+                <br>
+                <time datetime="2016-1-1">${post.post_date}</time>
+                <div>${postLikes}</div>
+            </div>
+            <div class="content">
+                ${comments}
+            </div>
+
+        </div>
+    </div>`;
+}
+
+const formatComment = (comment) => {
+    let commentLikes =  formatLikes(comment.likes);
+    return `<details>
+                <summary>from @${comment.user_name} ${comment.user_firstname} ${commentLikes} </summary>
+                ${comment.comment_name}
+            </details>`;
+}
+
+const formatLikes = (likes) => {
+    let like = likes ? likes.likes_likes : '';
+    let disslike = like ? likes.likes_disslikes : '';
+    return `<span>
+                <button class="button is-success is-small is-rounded">+ ${like}</button>
+                <button class="button is-danger is-small is-rounded">- ${disslike}</button>
+            </span>`;
+}
 
