@@ -1,15 +1,5 @@
 console.log('wall lié')
 
-document.addEventListener('DOMContentLoaded',()=>{
-    let path = document.querySelector('#pathMain').getAttribute('value')
-    let urlParsed = window.location.pathname.split('/')
-    let param= urlParsed[urlParsed.indexOf('wall')+1] != undefined ? urlParsed[urlParsed.indexOf('wall')+1] : null;
-    let target = document.querySelector('#loadContent');
-    console.log("Before page loader instanciation");
-    var pageLoader = new PageLoader(path+'/post',param,target)
-})
-
-
 class PageLoader {
     constructor(APIEntryPoint,param = null,target){
         this.entryPoint = APIEntryPoint;
@@ -70,11 +60,19 @@ class PageLoader {
     }
 }
 
+let path = document.querySelector('#pathMain').getAttribute('value')
+let urlParsed = window.location.pathname.split('/')
+let param= urlParsed[urlParsed.indexOf('wall')+1] != undefined ? urlParsed[urlParsed.indexOf('wall')+1] : null;
+let target = document.querySelector('#loadContent');
+console.log("Before page loader instanciation");
+var pageLoader = new PageLoader(path+'/post',param,target)
+
+
 const formatPost = (post) => {
     let comments = post.comments.length > 0
         ? post.comments.map(comment => formatComment(comment)).join('') 
         : '<div>no comment</div>';
-    let postLikes =  formatLikes(post.likes);
+    let postLikes =  formatLikes(post.likes,post.post_pk_id,"post");
     return `
     <div class="card">
         <div class="card-content">
@@ -104,19 +102,34 @@ const formatPost = (post) => {
 }
 
 const formatComment = (comment) => {
-    let commentLikes =  formatLikes(comment.likes);
+    let commentLikes = formatLikes(comment.likes,comment.comment_pk_id,'comment')
     return `<details>
                 <summary>from @${comment.user_name} ${comment.user_firstname} ${commentLikes} </summary>
                 ${comment.comment_name}
             </details>`;
 }
 
-const formatLikes = (likes) => {
+const formatLikes = (likes,id,type) => {
     let like = likes ? likes.likes_likes : '';
     let disslike = like ? likes.likes_disslikes : '';
     return `<span>
-                <button class="button is-success is-small is-rounded">+ ${like}</button>
-                <button class="button is-danger is-small is-rounded">- ${disslike}</button>
+                <button id="like-${id}-${type}" class="button is-success is-small is-rounded" onClick="vote('like',${id},'${type}')">+ ${like}</button>
+                <button id="disslike-${id}-${type}" class="button is-danger is-small is-rounded" onClick="vote('disslike',${id},'${type}')">- ${disslike}</button>
             </span>`;
 }
 
+const vote = async (type,id,element) => {
+    
+    let vote = new FormData();
+    vote.append("type",type)
+    vote.append("id",id)
+    vote.append("element",element)
+
+    let result = await fetch("/vote", {
+        method: "POST",
+        body: vote
+    }).then(reponse => reponse.json())
+
+    document.querySelector(`#like-${id}-${element}`).innerText = `+ ${result.total.likes_likes}`;
+    document.querySelector(`#disslike-${id}-${element}`).innerText = `+ ${result.total.likes_disslikes}`;
+}

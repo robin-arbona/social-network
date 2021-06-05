@@ -19,4 +19,6 @@ return function (App $app) {
     $app->get('/post[/{page}[/{user_id}]]', \App\Action\GetPost::class);
 
     $app->get('/user[/{user_id}]', \App\Action\GetUser::class);
+
+    $app->post('/vote', \App\Action\Vote::class);
 };
