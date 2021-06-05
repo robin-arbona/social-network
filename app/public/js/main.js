@@ -34,7 +34,7 @@ function signOut() {
     });
 }
 
-io("social.network:3001");
+//io("social.network:3001");
 
 
 // Navbar

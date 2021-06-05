@@ -3,6 +3,7 @@
 namespace App\Action;
 
 use App\Domain\Comment\Service\CommentFetcher;
+use App\Domain\Likes\Service\LikesFetcher;
 use App\Domain\Post\Service\PostFetcher;
 use App\Exception\ValidationException;
 use Psr\Container\ContainerInterface;
@@ -14,10 +15,11 @@ final class GetPost
     private $postFetcher;
     private $postsPerPage;
 
-    public function __construct(ContainerInterface $container, PostFetcher $postFetcher, CommentFetcher $commentFetcher)
+    public function __construct(ContainerInterface $container, PostFetcher $postFetcher, CommentFetcher $commentFetcher, LikesFetcher $likesFetcher)
     {
         $this->postFetcher = $postFetcher;
         $this->commentFetcher = $commentFetcher;
+        $this->likesFetcher = $likesFetcher;
         $this->postsPerPage = $container->get('settings')['postsPerPage'];
     }
 
@@ -35,7 +37,7 @@ final class GetPost
         $result = $this->commentFetcher->fetch($result);
 
         // Get matching likes 
-        //$result = $this->likesFetcher->fetch($result);
+        $result = $this->likesFetcher->fetch($result);
 
 
         if ($result["success"]) {
