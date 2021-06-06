@@ -14,7 +14,11 @@ return function (App $app) {
 
     $app->get('/post/new/form', \App\Page\ComponentFormPostCreation::class);
 
+    $app->get('/comment/form', \App\Page\ComponentFormCommentCreation::class);
+
     $app->post('/post/new/db', \App\Action\CreatePost::class);
+
+    $app->post('/comment/{id}', \App\Action\CreateComment::class);
 
     $app->get('/post[/{page}[/{user_id}]]', \App\Action\GetPost::class);
 

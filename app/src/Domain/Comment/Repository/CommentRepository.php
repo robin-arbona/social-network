@@ -24,7 +24,33 @@ final class CommentRepository
         $this->connection = $connection;
     }
 
+    /**
+     * Create comment
+     * 
+     * @param int $id
+     * 
+     * @param array $data
+     * 
+     * @return int the new id
+     */
+    public function newComment(array $comment): int
+    {
+        $row = [
+            'comment_name' => $comment['name'],
+            'comment_content' => $comment['content'],
+            'comment_fk_user_id' => $comment['comment_fk_user_id'],
+            'comment_fk_post_id' => $comment['comment_fk_post_id']
+        ];
+        $sql = "INSERT INTO comment SET 
+                comment_name=:comment_name, 
+                comment_content=:comment_content,
+                comment_fk_user_id=:comment_fk_user_id,
+                comment_fk_post_id=:comment_fk_post_id;";
 
+        $this->connection->prepare($sql)->execute($row);
+
+        return (int)$this->connection->lastInsertId();
+    }
 
     /**
      * Get posts

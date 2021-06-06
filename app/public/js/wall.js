@@ -1,5 +1,3 @@
-console.log('wall lié')
-
 class PageLoader {
     constructor(APIEntryPoint,param = null,target){
         this.entryPoint = APIEntryPoint;
@@ -64,9 +62,7 @@ let path = document.querySelector('#pathMain').getAttribute('value')
 let urlParsed = window.location.pathname.split('/')
 let param= urlParsed[urlParsed.indexOf('wall')+1] != undefined ? urlParsed[urlParsed.indexOf('wall')+1] : null;
 let target = document.querySelector('#loadContent');
-console.log("Before page loader instanciation");
-var pageLoader = new PageLoader(path+'/post',param,target)
-
+let pageLoader = new PageLoader(path+'/post',param,target)
 
 const formatPost = (post) => {
     let comments = post.comments.length > 0
@@ -74,7 +70,7 @@ const formatPost = (post) => {
         : '<div>no comment</div>';
     let postLikes =  formatLikes(post.likes,post.post_pk_id,"post");
     return `
-    <div class="card">
+    <div class="card mb-6">
         <div class="card-content">
             <div class="media">
                 <div class="media-left">
@@ -96,16 +92,16 @@ const formatPost = (post) => {
             <div class="content">
                 ${comments}
             </div>
-
         </div>
+        <button class="new-comment button is-warning is-light is-rounded" onClick="reply(${post.post_pk_id})">Comment</button>
     </div>`;
 }
 
 const formatComment = (comment) => {
     let commentLikes = formatLikes(comment.likes,comment.comment_pk_id,'comment')
     return `<details>
-                <summary>from @${comment.user_name} ${comment.user_firstname} ${commentLikes} </summary>
-                ${comment.comment_name}
+                <summary>${comment.comment_name} from @${comment.user_name} ${comment.user_firstname} ${commentLikes} </summary>
+                ${comment.comment_content}
             </details>`;
 }
 
@@ -131,5 +127,10 @@ const vote = async (type,id,element) => {
     }).then(reponse => reponse.json())
 
     document.querySelector(`#like-${id}-${element}`).innerText = `+ ${result.total.likes_likes}`;
-    document.querySelector(`#disslike-${id}-${element}`).innerText = `+ ${result.total.likes_disslikes}`;
+    document.querySelector(`#disslike-${id}-${element}`).innerText = `- ${result.total.likes_disslikes}`;
+}
+
+const reply = async (id) => {
+    let content = await loadContent(pathMain + '/comment/form');
+    displayModal("New comment",content,id);
 }
