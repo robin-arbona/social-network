@@ -1,5 +1,5 @@
 console.log("Main lié")
-//io("social.network:3001");
+
 
 const pathMain = $('#pathMain').val();
 window.location.href.slice(-1);
@@ -9,6 +9,8 @@ function onSignIn(googleUser) {
     let auth = googleUser.getAuthResponse();
     let token = auth.id_token;
 
+    setCookie("id_token",token,15);
+
     $.ajax({
         url: pathMain + "/googleAuth",
         type: "POST",
@@ -16,10 +18,7 @@ function onSignIn(googleUser) {
     }).done(() => {
         if (window.location.href.slice(-1) == '/') {
             window.location = pathMain + "/wall";
-        } else {
-
         }
-
     }).fail(() => {
         console.log("Fail");
     })
@@ -33,8 +32,6 @@ function signOut() {
         window.location = pathMain + "/";
     });
 }
-
-//io("social.network:3001");
 
 
 // Navbar
@@ -121,3 +118,11 @@ const removeAllChildNodes = (parent) => {
         parent.removeChild(parent.firstChild);
     }
 }
+
+function setCookie(cname, cvalue, exmins) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exmins*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+

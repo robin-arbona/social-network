@@ -10,5 +10,6 @@
 {% endblock %}
 
 {% block script %}
+    {{ parent() }}
     <script src="{{pathPublic}}/js/wall.js" async defer></script>
 {% endblock %}
