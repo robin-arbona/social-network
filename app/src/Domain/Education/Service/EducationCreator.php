@@ -25,4 +25,14 @@ final class EducationCreator
     {
         $this->repository = $repository;
     }
+
+    /**
+     * Create new Education
+     * 
+     * @param array $data
+     * 
+     */
+    public function createEducation(array $data): array
+    {
+    }
 }

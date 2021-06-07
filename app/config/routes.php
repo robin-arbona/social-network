@@ -14,6 +14,10 @@ return function (App $app) {
 
     $app->get('/profil', \App\Page\PageProfil::class);
 
+    $app->get('/profil/new/educationform', \App\Page\ComponentFormEducationCreation::class);
+
+    $app->get('/profil/new/wexperienceform', \App\Page\ComponentFormWexperienceCreation::class);
+
     $app->get('/post/new/form', \App\Page\ComponentFormPostCreation::class);
 
     $app->post('/post/new/db', \App\Action\CreatePost::class);
