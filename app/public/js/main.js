@@ -9,7 +9,7 @@ function onSignIn(googleUser) {
     let auth = googleUser.getAuthResponse();
     let token = auth.id_token;
 
-    setCookie("id_token",token,15);
+    setCookie("id_token",token,120);
 
     $.ajax({
         url: pathMain + "/googleAuth",

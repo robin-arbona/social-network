@@ -1,11 +1,12 @@
 class Chat {
-    constructor(url){
+    constructor(url,userListElement){
         this.state = {
-            userList : {},
+            userList : [],
             mainChat : [],
             room : {}
         };
         this.connect(url);
+        this.userListElement = userListElement;
         this.initialiseSocket();
         //socket.emit('initiate private chat',e.target.innerText)
     }
@@ -21,9 +22,9 @@ class Chat {
             }
             this.setState(newState);
         }) 
-        this.socket.on('please join room', (roomId) => {    
-            console.log(roomId)
-        }) 
+        //this.socket.on('please join room', (roomId) => {    
+        //    console.log(roomId)
+        //}) 
         this.socket.on('user list', (list) => {   
             let newState = {
                 userList:list
@@ -38,15 +39,35 @@ class Chat {
     getState(){
         return this.state
     }
-    onStateChanges(newState){
-        console.log(this.getState());
+    onStateChanges(state){
+        console.log(state);
+        this.updateUserList(state);
+    }
+    updateUserList(state){
+        if(state.userList.length <= 0){
+            return;
+        }
+        console.log(state.userList);
+        let list = state.userList.map(user=>formatUser(user)).join('')
+        this.userListElement.innerHTML = list;
     }
     sendMessage(msg){
         this.socket.emit('chat message', msg)
     }
 }
 
-var chat = new Chat("social.network:3001")
+let userListElement = document.querySelector('.chat-user-list')
+var chat = new Chat("social.network:3001",userListElement)
+
+const formatUser = (user) => {
+    return `
+    <a class="panel-block is-active">
+      <span class="panel-icon">
+        <i class="fas fa-book" aria-hidden="true"></i>
+      </span>
+      ${user}
+    </a>`;
+}
 
 function getCookie(cname) {
     var name = cname + "=";
