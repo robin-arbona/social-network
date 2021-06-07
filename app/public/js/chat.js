@@ -1,13 +1,16 @@
 class Chat {
-    constructor(url,userListElement){
+    constructor(options){
         this.state = {
             userList : [],
             mainChat : [],
             room : {}
         };
-        this.connect(url);
-        this.userListElement = userListElement;
+        this.connect(options.url);
+        this.userListEl = options.userListEl;
+        this.inputEl = options.inputEl;
+        this.displayEl =options.displayEl;
         this.initialiseSocket();
+        this.initialiseChatForm()
         //socket.emit('initiate private chat',e.target.innerText)
     }
     connect(url){
@@ -42,6 +45,10 @@ class Chat {
     onStateChanges(state){
         console.log(state);
         this.updateUserList(state);
+        this.updateMessage(state)
+    }
+    updateMessage(state){
+        this.displayEl.innerHTML = state.mainChat.map(msg=>`<p>${msg}</p>`).join(' ');
     }
     updateUserList(state){
         if(state.userList.length <= 0){
@@ -49,15 +56,29 @@ class Chat {
         }
         console.log(state.userList);
         let list = state.userList.map(user=>formatUser(user)).join('')
-        this.userListElement.innerHTML = list;
+        this.userListEl.innerHTML = list;
+    }
+    initialiseChatForm(){
+        this.inputEl.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            this.sendMessage(this.inputEl.firstElementChild.value);
+            this.inputEl.firstElementChild.value = '';
+        })
     }
     sendMessage(msg){
         this.socket.emit('chat message', msg)
     }
 }
 
-let userListElement = document.querySelector('.chat-user-list')
-var chat = new Chat("social.network:3001",userListElement)
+
+let chatInit = {
+    url: "social.network:3001",
+    userListEl: document.querySelector('.chat-user-list'),
+    inputEl: document.querySelector('#chat-form'),
+    displayEl: document.querySelector('.chat-message')
+}
+
+var chat = new Chat(chatInit)
 
 const formatUser = (user) => {
     return `
