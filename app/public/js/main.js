@@ -82,7 +82,9 @@ const displayModal = (title,content,param = null) => {
     title & (document.querySelector("#modal-title").innerHTML = title);
     content & (document.querySelector("#modal-content").innerHTML = content);
     let form = document.querySelector(".form-modal");
-    param & form.setAttribute('action',form.getAttribute('action') + '/' + param);
+    if(param != null){
+        form.setAttribute('action',form.getAttribute('action') + '/' + param);
+    }
     content & form.addEventListener('submit',async function(e){
         e.preventDefault()
         result = await postContent(this,pathMain+this.getAttribute('action'))

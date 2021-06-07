@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
 
     socket.on('chat message', (msg) => {
       if(newUser){
-        console.log('room: general | user: ' + newUser.name +'| message: ' + msg);
+        console.log('room: general | user: ' + newUser.name + ' | message: ' + msg);
         io.emit('chat message', newUser.name +': ' + msg) 
       }
       });
