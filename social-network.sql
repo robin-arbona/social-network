@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jun 01, 2021 at 09:19 AM
+-- Generation Time: Jun 07, 2021 at 07:28 AM
 -- Server version: 5.7.30
 -- PHP Version: 7.4.9
 
@@ -23,9 +23,24 @@ SET time_zone = "+00:00";
 CREATE TABLE `comment` (
   `comment_pk_id` int(11) NOT NULL,
   `comment_name` varchar(255) NOT NULL,
+  `comment_content` text NOT NULL,
   `comment_fk_post_id` int(11) NOT NULL,
+  `comment_fk_user_id` int(11) NOT NULL,
   `comment_fk_likes_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`comment_pk_id`, `comment_name`, `comment_content`, `comment_fk_post_id`, `comment_fk_user_id`, `comment_fk_likes_id`) VALUES
+(5, 'Un commentaire sur un autre post', '', 3, 3, 4),
+(7, 'y', 'ho', 23, 3, 19),
+(8, 'boum', 'tchioi', 23, 3, NULL),
+(9, 'ouai', 'ca va ?', 3, 3, 20),
+(10, 'esfs', 'sefsese', 23, 3, NULL),
+(11, 'sefcsef', 'sefsese', 23, 3, NULL),
+(12, 'zedz', 'zedzed', 14, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -51,6 +66,28 @@ CREATE TABLE `likes` (
   `likes_disslikes` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `likes`
+--
+
+INSERT INTO `likes` (`likes_pk_id`, `likes_likes`, `likes_disslikes`) VALUES
+(1, 2, 3),
+(2, 3, 5),
+(3, 2, 2),
+(4, 21, 12),
+(9, 23, 4),
+(10, 1, 1),
+(11, 1, 0),
+(12, 1, 0),
+(13, 0, 1),
+(14, 1, 0),
+(15, 4, 2),
+(16, 4, 3),
+(17, 4, 4),
+(18, 0, 1),
+(19, 3, 0),
+(20, 1, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -72,20 +109,29 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`post_pk_id`, `post_name`, `post_content`, `post_date`, `post_picture`, `post_fk_user_id`, `post_fk_likes_id`) VALUES
-(1, 'heyo', 'salut mes copains', '2021-05-31 14:56:30', 'yous.jpg', 3, NULL),
-(2, 'hey', 'salut mes copains', '2021-05-31 15:20:56', 'you.jpg', 3, NULL),
-(3, 'sdc', 'jhzdvjhed', '2021-06-01 09:10:07', 'sdcsdc,jog', 3, NULL),
-(4, 'qsd', 'qsdqsd', '2021-06-01 10:50:36', 'qsdqsdqsdqds', 3, NULL),
+(2, 'hey', 'salut mes copains', '2021-05-31 15:20:56', 'you.jpg', 4, 9),
+(3, 'sdc', 'jhzdvjhed', '2021-06-01 09:10:07', 'sdcsdc,jog', 3, 10),
+(4, 'qsd', 'qsdqsd', '2021-06-01 10:50:36', 'qsdqsdqsdqds', 3, 11),
 (5, 'azdazd', 'azdazdadz', '2021-06-01 10:57:44', 'azdadza', 3, NULL),
 (6, 'azdazd', 'azdazdadz', '2021-06-01 10:58:15', 'azdadza', 3, NULL),
 (7, 'azdazd', 'azdazdadz', '2021-06-01 10:59:10', 'azdadza', 3, NULL),
 (8, 'azdazd', 'azdazdadz', '2021-06-01 10:59:14', 'azdadza', 3, NULL),
 (9, 'azdazd', 'azdazdadz', '2021-06-01 10:59:18', 'azdadza', 3, NULL),
-(10, 'azdazd', 'azdazdadz', '2021-06-01 10:59:22', 'azdadza', 3, NULL),
-(11, 'azdazd', 'azdazdadz', '2021-06-01 10:59:26', 'azdadza', 3, NULL),
+(10, 'azdazd', 'azdazdadz', '2021-06-01 10:59:22', 'azdadza', 3, 12),
+(11, 'azdazd', 'azdazdadz', '2021-06-01 10:59:26', 'azdadza', 3, 13),
 (12, 'azdazd', 'azdazdadz', '2021-06-01 10:59:30', 'azdadza', 3, NULL),
 (13, 'azdazd', 'azdazdadz', '2021-06-01 11:09:51', 'azdadza', 3, NULL),
-(14, 'pierrreee', 'azazazazazazaza', '2021-06-01 11:17:22', 'azazaz', 4, NULL);
+(14, 'pierrreee', 'azazazazazazaza', '2021-06-01 11:17:22', 'azazaz', 4, NULL),
+(15, 'azd', 'azdaz', '2021-06-04 10:27:40', 'azd', 4, NULL),
+(16, 'hey', 'helllo', '2021-06-05 19:42:37', 'hu', 4, NULL),
+(17, 'he', 'je', '2021-06-05 20:02:27', 'je', 4, NULL),
+(18, 'Noouveau post', 'Hey commen ca va akakakak', '2021-06-05 20:21:55', 'yenapas.png', 4, 14),
+(19, 'dernier en dat', 'huuu', '2021-06-05 20:24:39', 'salut', 4, 15),
+(20, 'encore 1', 'a', '2021-06-05 20:32:58', 'a', 4, 18),
+(21, 'encore 2', 'hu', '2021-06-05 20:37:25', 'hey.jpg', 4, 16),
+(22, 'huuu', 'qui es co ?', '2021-06-05 20:41:07', 'qu', 3, NULL),
+(23, 'ezcxez', 'zxzex', '2021-06-05 21:48:03', 'zxeze', 3, 17),
+(24, 'zed', 'zedze', '2021-06-07 09:18:14', 'zed', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -162,7 +208,8 @@ CREATE TABLE `wexperience` (
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`comment_pk_id`),
   ADD KEY `comment_fk_post_id` (`comment_fk_post_id`),
-  ADD KEY `comment_fk_likes_id` (`comment_fk_likes_id`);
+  ADD KEY `comment_fk_likes_id` (`comment_fk_likes_id`),
+  ADD KEY `comment_fk_user_id` (`comment_fk_user_id`);
 
 --
 -- Indexes for table `education`
@@ -219,7 +266,7 @@ ALTER TABLE `wexperience`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_pk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `comment_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `education`
@@ -231,13 +278,13 @@ ALTER TABLE `education`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `likes_pk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `likes_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `post_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `profil`
@@ -272,7 +319,8 @@ ALTER TABLE `wexperience`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `comment_fk_likes_id` FOREIGN KEY (`comment_fk_likes_id`) REFERENCES `likes` (`likes_pk_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comment_fk_post_id` FOREIGN KEY (`comment_fk_post_id`) REFERENCES `post` (`post_pk_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `comment_fk_post_id` FOREIGN KEY (`comment_fk_post_id`) REFERENCES `post` (`post_pk_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comment_fk_user_id` FOREIGN KEY (`comment_fk_user_id`) REFERENCES `user` (`user_pk_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `post`

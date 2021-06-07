@@ -61,7 +61,12 @@ final class PostRepository
      */
     public function getPosts(int $offset = 0, int $limit = 100): array
     {
-        return $this->connection->query("SELECT * FROM `post` LIMIT $limit OFFSET $offset;")->fetchAll();
+        $sql = "SELECT * 
+                FROM `post` 
+                INNER JOIN `user` ON `post`.`post_fk_user_id` = `user`.`user_pk_id` 
+                ORDER BY `post`.`post_date` DESC
+                LIMIT $limit OFFSET $offset;";
+        return $this->connection->query($sql)->fetchAll();
     }
 
     /**
@@ -77,7 +82,13 @@ final class PostRepository
      */
     public function getPostsBydId(int $userId, int $offset = 0, int $limit = 100): array
     {
-        return $this->connection->query("SELECT * FROM `post` WHERE post_fk_user_id = $userId LIMIT $limit OFFSET $offset;")->fetchAll();
+        $sql = "SELECT * 
+                FROM `post` 
+                INNER JOIN `user` ON `post`.`post_fk_user_id` = `user`.`user_pk_id` 
+                WHERE post_fk_user_id = $userId 
+                ORDER BY `post`.`post_date` ASC
+                LIMIT $limit OFFSET $offset;";
+        return $this->connection->query($sql)->fetchAll();
     }
 
     /**

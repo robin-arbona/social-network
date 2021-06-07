@@ -1,13 +1,15 @@
 console.log("Main lié")
-//io("social.network:3001");
+
 
 const pathMain = $('#pathMain').val();
-console.log(window.location.href.slice(-1));
+window.location.href.slice(-1);
 
 
 function onSignIn(googleUser) {
     let auth = googleUser.getAuthResponse();
     let token = auth.id_token;
+
+    setCookie("id_token",token,15);
 
     $.ajax({
         url: pathMain + "/googleAuth",
@@ -16,10 +18,7 @@ function onSignIn(googleUser) {
     }).done(() => {
         if (window.location.href.slice(-1) == '/') {
             window.location = pathMain + "/wall";
-        } else {
-
         }
-
     }).fail(() => {
         console.log("Fail");
     })
@@ -34,11 +33,8 @@ function signOut() {
     });
 }
 
-io("social.network:3001");
-
 
 // Navbar
-document.addEventListener('DOMContentLoaded', () => {
 
     // Get all "navbar-burger" elements
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
@@ -62,4 +58,73 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-});
+
+// New post
+document.querySelector('.new-post').addEventListener('click',async ()=>{
+    let content = await loadContent(pathMain + '/post/new/form');
+    displayModal("New post",content);
+})
+
+const loadContent = (url) => {
+    return fetch(url).then(reponse => reponse.text());
+}
+
+const postContent = async (formElement,url) => {
+    let form = new FormData(formElement);
+    let json = await fetch(url, {
+      method: "POST",
+      body: form
+    }).then(response => response.json())
+    return json
+}
+
+const displayModal = (title,content,param = null) => {
+    title & (document.querySelector("#modal-title").innerHTML = title);
+    content & (document.querySelector("#modal-content").innerHTML = content);
+    let form = document.querySelector(".form-modal");
+    if(param != null){
+        form.setAttribute('action',form.getAttribute('action') + '/' + param);
+    }
+    content & form.addEventListener('submit',async function(e){
+        e.preventDefault()
+        result = await postContent(this,pathMain+this.getAttribute('action'))
+        if(result.success){
+            closeModal(true);
+        } else {
+            let message = result.message + ': ';
+            for (const key in result.errors) {
+                const element = result.errors[key];
+                message +=  key + '-->' + element + '. ';
+            }
+            document.querySelector("#modal-footer").innerHTML = message;
+        }
+ 
+    });
+    document.querySelector(".delete").addEventListener('click',()=>{closeModal(false)});
+    document.querySelector(".modal").classList.toggle("is-active");
+}
+
+const closeModal = (reload) => {   
+    document.querySelector(".modal").classList.toggle("is-active");
+    if(reload){
+        document.querySelector("#modal-title").innerHTML = "";
+        document.querySelector("#modal-content").innerHTML = "";
+        removeAllChildNodes(document.querySelector('.post'));
+        pageLoader = new PageLoader(path+'/post',param,target);
+    }
+
+}
+
+const removeAllChildNodes = (parent) => {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+function setCookie(cname, cvalue, exmins) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exmins*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+

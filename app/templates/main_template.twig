@@ -24,14 +24,27 @@
 </header>
     
     {{ include('navbar.twig') }}
-    
-    <div id="content">{% block content %}
-        {% endblock %}
-    </div>
 
-    <aside class="chat">
-        {{ include('chat.twig') }}
-    </aside>
+    <div class="columns">
+        <div class="column">
+            First column
+            <aside class="chat">
+                {{ include('chat.twig') }}
+            </aside>
+        </div>
+        <div id="content" class="column is-two-thirds container">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="column">
+            Third column
+        </div>
+    </div>
+    
+    {{ include('modal.twig') }}
+    
+
+    
 
     <div id="footer">
         {% block footer %}
@@ -39,6 +52,7 @@
         {% endblock %}
     </div>
     {% block script %}
+    <script src="{{pathPublic}}/js/chat.js" async defer></script>
     {% endblock %}
 </body>
 

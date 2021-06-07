@@ -3,4 +3,12 @@
 
 {% block content %}
 <p>Hello wall</p>
+<div class="post">
+</div>
+<button id="loadContent" class="button is-primary is-light">Load more</button>
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+    <script src="{{pathPublic}}/js/wall.js" async defer></script>
 {% endblock %}
