@@ -61,8 +61,8 @@ final class EducationRepository
      * 
      * @return array $education - set of result
      */
-    public function getEducationById(int $userId, int $offset = 0, int $limit = 100): array
+    public function getEducation(): array
     {
-        return $this->connection->query("SELECT * FROM `education` WHERE education_fk_user_id = $userId LIMIT $limit OFFSET $offset;")->fetchAll();
+        return $this->connection->query("SELECT * FROM `education`")->fetchAll();
     }
 }
