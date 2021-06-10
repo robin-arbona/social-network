@@ -12,11 +12,7 @@ return function (App $app) {
 
     $app->get('/wall[/{user_id}]', \App\Page\PageWall::class);
 
-    $app->get('/profil', \App\Page\PageProfil::class);
-
-    $app->get('/profil/new/educationform', \App\Page\ComponentFormEducationCreation::class);
-
-    $app->get('/profil/new/wexperienceform', \App\Page\ComponentFormWexperienceCreation::class);
+    $app->get('/profil[/{user_id}]', \App\Page\PageProfil::class);
 
     $app->get('/post/new/form', \App\Page\ComponentFormPostCreation::class);
 

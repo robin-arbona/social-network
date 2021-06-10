@@ -61,8 +61,24 @@ final class EducationRepository
      * 
      * @return array $education - set of result
      */
-    public function getEducation(): array
+    public function getEducationById(int $userId): array
     {
-        return $this->connection->query("SELECT * FROM `education`")->fetchAll();
+        $sql = "SELECT *
+                FROM `education`
+                INNER JOIN `user` ON `education`.`education_fk_user_id` = `user`.`user_pk_id`
+                WHERE `education_fk_user_id` $userId ";
+
+        return $this->connection->query($sql)->fetchAll();
+    }
+
+    public function getEducationUserConnected()
+    {
+        $id = $_SESSION['user']['id'];
+        $sql = "SELECT * 
+                FROM `post` 
+                INNER JOIN `user` ON `post`.`post_fk_user_id` = `user`.`user_pk_id`
+                WHERE `post_fk_user_id` = $id";
+
+        return $this->connection->query($sql)->fetchAll();
     }
 }
