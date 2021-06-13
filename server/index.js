@@ -21,6 +21,9 @@ io.on('connection', (socket) => {
     console.log(userList)
     console.log(socket.id)
 
+    socket.join(socket.id);
+
+
     socket.on('identification', (msg)=>{
       googleAuth.verify(msg)
         .then((payload)=>{
@@ -49,19 +52,16 @@ io.on('connection', (socket) => {
       io.emit('user list', extractUsersName(userList));
     });
 
-    socket.on('initiate private chat', (userName) => {
-      let roomId = id()
-      socket.join(`room ${roomId}`);
-      console.log(`initiate private chat from ${newUser.name} to ${userName} socket ${userMatchingId(userName,userList)} in room ${roomId}`)
-      socket.to(userMatchingId(userName,userList)).emit('please join room', roomId);
+    socket.on('private message',(object)=>{
+      object.from = {};
+      object.to.id = userMatchingId(object.to.userName,userList);
+      object.from.id = socket.id;
+      object.from.userName = usermatchingName(socket.id,userList);
+      console.log(object)
+      console.log(userList)
+      io.to(object.to.id).emit('private message', object);
     })
 
-    socket.on('say to someone', (id,msg) => {
-      if(newUser){
-        console.log('room: '+ id +' | user: ' + newUser +'| message: ' + msg);
-        socket.to(id).emit("my message", msg);
-      }
-    });
 
     socket.on('disconnect', () => {
       console.log('before filter',userList);
@@ -113,4 +113,14 @@ const userMatchingId = (user2check,userList) => {
     }
   })
   return matchingId
+}
+
+const usermatchingName = (id2check,userList) => {
+  let matchingName = null
+  userList.forEach(user => {
+    if(user.id == id2check){
+      matchingName = user.name
+    }
+  })
+  return matchingName
 }
