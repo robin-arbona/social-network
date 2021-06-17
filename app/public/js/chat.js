@@ -11,7 +11,6 @@ class Chat {
         this.displayEl =options.displayEl;
         this.initialiseSocket();
         this.initialiseChatForm()
-        //socket.emit('initiate private chat',e.target.innerText)
     }
     connect(url){
         this.socket = io(url);
@@ -19,20 +18,33 @@ class Chat {
     }
     initialiseSocket(){
         this.socket.on('chat message', (msg) => {    
-            console.log(msg);
             let newState = {
                 mainChat : [...this.getState().mainChat, msg]
             }
             this.setState(newState);
+            this.updateMessage(msg)
         }) 
-        //this.socket.on('please join room', (roomId) => {    
-        //    console.log(roomId)
-        //}) 
+        this.socket.on('private message', (objMsg) => {    
+            let msg = objMsg.message
+            let userName = objMsg.from.userName.split(' ').join('_').toLowerCase()
+            let tab = document.querySelector('#tab-'+userName)
+            if(!tab){
+                createNewPrivateChat(objMsg.from.userName)
+            }
+            let room = {}
+            if(typeof this.getState().room[userName] !== 'undefined'){
+                room[userName] = [...this.getState().room[userName],  msg]
+            } else {
+                room[userName] = [msg]
+            }
+            this.updateMessage(msg,document.querySelector('#chat-' + userName))
+            this.setState({room});
+        }) 
         this.socket.on('user list', (list) => {   
-            let newState = {
+            this.setState({
                 userList:list
-            } 
-            this.setState(newState);
+            } );
+            this.updateUserList(this.getState());
         })
     }
     setState(newState){
@@ -44,19 +56,17 @@ class Chat {
     }
     onStateChanges(state){
         console.log(state);
-        this.updateUserList(state);
-        this.updateMessage(state)
     }
-    updateMessage(state){
-        this.displayEl.innerHTML = state.mainChat.map(msg=>`<p>${msg}</p>`).join(' ');
+    updateMessage(msg,element = this.displayEl, position = 'left'){
+        element.innerHTML +=  `<p class="has-text-${position}">${msg}</p>`
     }
     updateUserList(state){
         if(state.userList.length <= 0){
             return;
         }
-        console.log(state.userList);
         let list = state.userList.map(user=>formatUser(user)).join('')
         this.userListEl.innerHTML = list;
+        document.querySelectorAll('.user-item').forEach(initiateUserItem.bind(this))
     }
     initialiseChatForm(){
         this.inputEl.addEventListener('submit',(e)=>{
@@ -66,10 +76,68 @@ class Chat {
         })
     }
     sendMessage(msg){
-        this.socket.emit('chat message', msg)
+        let to = document.querySelector(".panel-tabs > a.is-active").innerText
+        if(to == "Main"){
+            this.socket.emit('chat message', msg)
+        } else {
+            let obj = {
+                to : {
+                    userName : to
+                },
+                message : msg
+            }
+            this.socket.emit('private message', obj)
+            let chatWindow = document.querySelector('#chat-'+to.split(' ').join('_').toLowerCase());
+            this.updateMessage(msg,chatWindow,'right')
+
+        }
     }
 }
 
+const initiateUserItem = function(user){
+    let callback = function(e){
+        let userName = e.target.innerText;
+        let tabId = '#tab-'+ userName.split(' ').join('_').toLowerCase()
+        if(!document.querySelector(tabId)){
+            createNewPrivateChat(user.innerText)
+        }
+    }
+    user.removeEventListener('click',callback.bind(this))
+    user.addEventListener('click',callback.bind(this))
+}
+
+const createNewPrivateChat = function(user){
+    let newTab = document.createElement("a");
+    newTab.innerText= user;
+    newTab.id = 'tab-'+ user.split(' ').join('_').toLowerCase(); 
+    document.querySelector(".panel-chat").appendChild(newTab);
+
+    let chatWindow = document.createElement("div");
+    chatWindow.classList.add('chat-message');
+    chatWindow.id = 'chat-'+ user.split(' ').join('_').toLowerCase(); 
+    document.querySelector(".chat-place-holder").appendChild(chatWindow);
+
+    select(newTab)
+
+    initTabNavigation()
+}
+
+const initTabNavigation = ()=>{
+    let tabs = document.querySelectorAll(".panel-tabs > a").forEach((tab)=>{
+        tab.addEventListener('click',function(){
+            select(this)
+        })
+    }) 
+}
+
+const select = (tab) =>{
+    let activeEl = document.querySelector(".panel-tabs > a.is-active")
+    activeEl.classList.remove('is-active');
+    document.querySelector('#'+activeEl.id.replace('tab-','chat-')).style="display:none";
+
+    tab.classList.add("is-active");
+    document.querySelector('#'+tab.id.replace('tab-','chat-')).style="display:block";
+}
 
 let chatInit = {
     url: "social.network:3001",
@@ -82,12 +150,7 @@ var chat = new Chat(chatInit)
 
 const formatUser = (user) => {
     return `
-    <a class="panel-block is-active">
-      <span class="panel-icon">
-        <i class="fas fa-book" aria-hidden="true"></i>
-      </span>
-      ${user}
-    </a>`;
+    <a class="panel-block is-active user-item">${user}</a>`;
 }
 
 function getCookie(cname) {

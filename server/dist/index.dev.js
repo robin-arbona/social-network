@@ -22,9 +22,6 @@ var id = function id() {
 
 io.on('connection', function (socket) {
   var newUser = null;
-  console.log('a user connected');
-  console.log(userList);
-  console.log(socket.id);
   socket.join(socket.id);
   socket.on('identification', function (msg) {
     googleAuth.verify(msg).then(function (payload) {
@@ -34,7 +31,6 @@ io.on('connection', function (socket) {
       };
 
       if (isNewUser(newUser, userList) == false) {
-        console.log('user added');
         userList.push(newUser);
         io.emit('chat message', newUser.name + ' has joined the room');
       }

@@ -11,3 +11,8 @@
 
     background-color: white;
 }
+
+.chat-message{
+    height:200px;
+    overflow-y: scroll;
+}

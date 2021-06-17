@@ -17,12 +17,8 @@ let id = () => {
 
 io.on('connection', (socket) => {
     let newUser = null;
-    console.log('a user connected')
-    console.log(userList)
-    console.log(socket.id)
 
     socket.join(socket.id);
-
 
     socket.on('identification', (msg)=>{
       googleAuth.verify(msg)
@@ -32,7 +28,6 @@ io.on('connection', (socket) => {
             name: payload.name
           };
           if(isNewUser(newUser,userList) == false){
-            console.log('user added')
             userList.push(newUser)
             io.emit('chat message', newUser.name + ' has joined the room');
           }
@@ -61,7 +56,6 @@ io.on('connection', (socket) => {
       console.log(userList)
       io.to(object.to.id).emit('private message', object);
     })
-
 
     socket.on('disconnect', () => {
       console.log('before filter',userList);

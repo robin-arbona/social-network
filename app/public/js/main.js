@@ -22,7 +22,6 @@ function onSignIn(googleUser) {
     }).fail(() => {
         console.log("Fail");
     })
-
 }
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
