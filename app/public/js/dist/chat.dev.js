@@ -59,7 +59,9 @@ function () {
         var tab = document.querySelector('#tab-' + userName);
 
         if (!tab) {
-          createNewPrivateChat(objMsg.from.userName);
+          createNewPrivateChat(objMsg.from.userName, false);
+        } else {
+          notify(tab);
         }
 
         var room = {};
@@ -106,6 +108,10 @@ function () {
       var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.displayEl;
       var position = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'left';
       element.innerHTML += "<p class=\"has-text-".concat(position, "\">").concat(msg, "</p>");
+
+      if (element.id === 'chat-main') {
+        notify(document.querySelector('#tab-main'));
+      }
     }
   }, {
     key: "updateUserList",
@@ -163,7 +169,7 @@ var initiateUserItem = function initiateUserItem(user) {
     var tabId = '#tab-' + userName.split(' ').join('_').toLowerCase();
 
     if (!document.querySelector(tabId)) {
-      createNewPrivateChat(user.innerText);
+      createNewPrivateChat(user.innerText, true);
     }
   };
 
@@ -171,7 +177,7 @@ var initiateUserItem = function initiateUserItem(user) {
   user.addEventListener('click', callback.bind(this));
 };
 
-var createNewPrivateChat = function createNewPrivateChat(user) {
+var createNewPrivateChat = function createNewPrivateChat(user, selected) {
   var newTab = document.createElement("a");
   newTab.innerText = user;
   newTab.id = 'tab-' + user.split(' ').join('_').toLowerCase();
@@ -179,8 +185,15 @@ var createNewPrivateChat = function createNewPrivateChat(user) {
   var chatWindow = document.createElement("div");
   chatWindow.classList.add('chat-message');
   chatWindow.id = 'chat-' + user.split(' ').join('_').toLowerCase();
+  chatWindow.style = "display:none";
   document.querySelector(".chat-place-holder").appendChild(chatWindow);
-  select(newTab);
+
+  if (selected) {
+    select(newTab);
+  } else {
+    notify(newTab);
+  }
+
   initTabNavigation();
 };
 
@@ -192,11 +205,24 @@ var initTabNavigation = function initTabNavigation() {
   });
 };
 
+var notify = function notify(tab) {
+  console.log('New message', tab);
+
+  if (!tab.classList.contains('is-active')) {
+    tab.classList.add('notify');
+  }
+};
+
+function insertAfter(newNode, referenceNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
 var select = function select(tab) {
   var activeEl = document.querySelector(".panel-tabs > a.is-active");
   activeEl.classList.remove('is-active');
   document.querySelector('#' + activeEl.id.replace('tab-', 'chat-')).style = "display:none";
   tab.classList.add("is-active");
+  tab.classList.remove('notify');
   document.querySelector('#' + tab.id.replace('tab-', 'chat-')).style = "display:block";
 };
 

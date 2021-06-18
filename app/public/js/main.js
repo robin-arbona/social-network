@@ -1,9 +1,4 @@
-console.log("Main lié")
-
-
 const pathMain = $('#pathMain').val();
-window.location.href.slice(-1);
-
 
 function onSignIn(googleUser) {
     let auth = googleUser.getAuthResponse();

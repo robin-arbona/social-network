@@ -1,8 +1,6 @@
 "use strict";
 
-console.log("Main lié");
 var pathMain = $('#pathMain').val();
-window.location.href.slice(-1);
 
 function onSignIn(googleUser) {
   var auth = googleUser.getAuthResponse();

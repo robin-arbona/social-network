@@ -29,8 +29,11 @@ class Chat {
             let userName = objMsg.from.userName.split(' ').join('_').toLowerCase()
             let tab = document.querySelector('#tab-'+userName)
             if(!tab){
-                createNewPrivateChat(objMsg.from.userName)
+                createNewPrivateChat(objMsg.from.userName,false)
+            } else {
+                notify(tab)
             }
+            
             let room = {}
             if(typeof this.getState().room[userName] !== 'undefined'){
                 room[userName] = [...this.getState().room[userName],  msg]
@@ -58,7 +61,10 @@ class Chat {
         console.log(state);
     }
     updateMessage(msg,element = this.displayEl, position = 'left'){
-        element.innerHTML +=  `<p class="has-text-${position}">${msg}</p>`
+        element.innerHTML +=  `<p class="has-text-${position}">${msg}</p>`;
+        if(element.id === 'chat-main'){
+            notify(document.querySelector('#tab-main'))
+        }
     }
     updateUserList(state){
         if(state.userList.length <= 0){
@@ -99,14 +105,14 @@ const initiateUserItem = function(user){
         let userName = e.target.innerText;
         let tabId = '#tab-'+ userName.split(' ').join('_').toLowerCase()
         if(!document.querySelector(tabId)){
-            createNewPrivateChat(user.innerText)
+            createNewPrivateChat(user.innerText,true)
         }
     }
     user.removeEventListener('click',callback.bind(this))
     user.addEventListener('click',callback.bind(this))
 }
 
-const createNewPrivateChat = function(user){
+const createNewPrivateChat = function(user,selected){
     let newTab = document.createElement("a");
     newTab.innerText= user;
     newTab.id = 'tab-'+ user.split(' ').join('_').toLowerCase(); 
@@ -115,9 +121,14 @@ const createNewPrivateChat = function(user){
     let chatWindow = document.createElement("div");
     chatWindow.classList.add('chat-message');
     chatWindow.id = 'chat-'+ user.split(' ').join('_').toLowerCase(); 
+    chatWindow.style="display:none";
     document.querySelector(".chat-place-holder").appendChild(chatWindow);
 
-    select(newTab)
+    if(selected){
+        select(newTab)
+    } else {
+        notify(newTab)
+    }
 
     initTabNavigation()
 }
@@ -130,12 +141,24 @@ const initTabNavigation = ()=>{
     }) 
 }
 
+const notify = (tab)=>{
+    console.log('New message',tab)
+    if(!tab.classList.contains('is-active')){
+        tab.classList.add('notify')
+    }
+}
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
 const select = (tab) =>{
     let activeEl = document.querySelector(".panel-tabs > a.is-active")
     activeEl.classList.remove('is-active');
     document.querySelector('#'+activeEl.id.replace('tab-','chat-')).style="display:none";
 
     tab.classList.add("is-active");
+    tab.classList.remove('notify');
     document.querySelector('#'+tab.id.replace('tab-','chat-')).style="display:block";
 }
 

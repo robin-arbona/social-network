@@ -1,7 +1,7 @@
 <nav class="navbar is-link" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+            <a class="navbar-item" href="https://laplateforme.io/">
+                <img src="{{pathPublic}}/image/laplateforme-long2.png">
             </a>
 
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -13,27 +13,21 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <button class="new-post button is-primary">New post</button>
+                <a class="navbar-item new-post">
+                    New post
+                </a>
                 <a class="navbar-item" href="{{pathMain}}/wall">
                     Wall
                 </a>
-
-                <a class="navbar-item" href="{{pathMain}}/feed">
-                    News feed
-                </a>
-
             <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                <a class="button is-primary">
-                    <strong>Profil</strong>
+                <a class="navbar-item">
+                    Profil
                 </a>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                <a class="button is-light" onclick="signOut()">
+                <a class="navbar-item" onclick="signOut()">
                     Log out
                 </a>
-                </div>
-            </div>
+                <a class="navbar-item g-signin2" data-onsuccess="onSignIn"></a>
+                
             </div>
         </div>
     </nav>
