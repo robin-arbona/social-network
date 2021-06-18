@@ -1,5 +1,11 @@
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 var pathMain = $('#pathMain').val();
 
 function onSignIn(googleUser) {
@@ -174,4 +180,62 @@ function setCookie(cname, cvalue, exmins) {
   d.setTime(d.getTime() + exmins * 60 * 1000);
   var expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+} // Members List
+
+
+var MemberList =
+/*#__PURE__*/
+function () {
+  function MemberList(el) {
+    _classCallCheck(this, MemberList);
+
+    this.rootEl = el;
+    this.getList();
+  }
+
+  _createClass(MemberList, [{
+    key: "getList",
+    value: function getList() {
+      var _this = this;
+
+      return regeneratorRuntime.async(function getList$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              console.log(pathMain);
+              _context4.next = 3;
+              return regeneratorRuntime.awrap(fetch(pathMain + '/users').then(function (r) {
+                return r.json();
+              }));
+
+            case 3:
+              this.members = _context4.sent;
+              this.members.data.forEach(function (member) {
+                return _this.displayMember(member);
+              });
+
+            case 5:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, null, this);
+    }
+  }, {
+    key: "displayMember",
+    value: function displayMember(member) {
+      var newEl = document.createElement('div');
+      newEl.innerHTML = this.formatMember(member);
+      this.rootEl.appendChild(newEl);
+    }
+  }, {
+    key: "formatMember",
+    value: function formatMember(member) {
+      return "\n        <div class=\"media m-2\">\n            <div class=\"media-content\">\n                <p class=\"title has-text-right is-5\">".concat(member.user_firstname, "<br /><span class=\"is-uppercase\">").concat(member.user_name, "</span></p>\n                <p class=\"subtitle has-text-right is-7\">").concat(member.user_mail, "</p>\n            </div>\n            <div class=\"media-left is-vcentered\">\n                <figure class=\"image is-48x48\">\n                    <img class=\"is-rounded\" src=\"").concat(member.user_picture, "\" alt=\"Placeholder image\">\n                </figure>\n            </div>\n        </div>\n        <hr />");
+    }
+  }]);
+
+  return MemberList;
+}();
+
+var members = new MemberList(document.querySelector('#members-list'));

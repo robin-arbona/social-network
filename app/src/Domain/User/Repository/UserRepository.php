@@ -67,4 +67,12 @@ final class UserRepository
         $sth->execute($row);
         return $sth->fetchColumn(0);
     }
+
+    public function getAll()
+    {
+        $sql = "SELECT * FROM user";
+        $sth = $this->connection->prepare($sql);
+        $sth->execute();
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

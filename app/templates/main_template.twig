@@ -18,27 +18,30 @@
     {% endblock %}
 </head>
 
-<body>
+<body class="is-family-monospace">
 <header>
     <input type="hidden" id="pathMain" value="{{pathMain}}">
 </header>
     
     {{ include('navbar.twig') }}
 
-    <div class="columns">
-        <div class="column">
+    <div class="columns m-1 pt-6">
+        <div class="column is-3">
             <aside class="chat">
                 {{ include('chat.twig') }}
             </aside>
         </div>
-        <div id="content" class="column is-two-thirds container">
+        <div id="content" class="column is-6 is-scrollable">
             {% block content %}
             {% endblock %}
         </div>
-        <div class="column">
+        <div class="column is-3">
+            <aside class="members">
+                {{ include('members.twig') }}
+            </aside>
         </div>
     </div>
-    
+
     {{ include('modal.twig') }}
     
 

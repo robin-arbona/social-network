@@ -6,7 +6,7 @@ use App\Domain\User\Service\UserGetter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class GetUser
+final class GetUsers
 {
     private $userGetter;
 
@@ -17,11 +17,10 @@ final class GetUser
 
     public function __invoke(
         ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args
+        ResponseInterface $response
     ): ResponseInterface {
         // Collect input from the HTTP request
-        $result = $this->userGetter->get($args["user_id"]);
+        $result = $this->userGetter->getAll();
 
         if ($result["success"]) {
             $status = 201;

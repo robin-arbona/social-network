@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Service;
 
-use App\Exception\ValidationException;
+use App\Domain\User\Repository\UserRepository;
 
 use function PHPUnit\Framework\isNull;
 
@@ -15,8 +15,9 @@ final class UserGetter
     /**
      * The constructor.
      */
-    public function __construct()
+    public function __construct(UserRepository $repository)
     {
+        $this->repository = $repository;
     }
 
     /**
@@ -37,6 +38,21 @@ final class UserGetter
         if (isNull($userId)) {
             $result = $_SESSION['user'];
         }
+
+        $result['success'] = true;
+
+        return $result;
+    }
+
+    public function getAll(): array
+    {
+        if (!isset($_SESSION['user'])) {
+            $result["success"] = false;
+            $result["message"] = "User not authentified.";
+            return $result;
+        }
+
+        $result['data'] = $this->repository->getAll();
 
         $result['success'] = true;
 

@@ -71,8 +71,8 @@ const formatPost = (post) => {
     let postLikes =  formatLikes(post.likes,post.post_pk_id,"post");
     return `
     <div class="card mb-6">
-        <div class="card-content">
-            <div class="media">
+        <div class="card-content p-0">
+            <div class="media p-4 mb-0">
                 <div class="media-left">
                 <figure class="image is-48x48">
                     <img class="is-rounded" src="${post.user_picture}" alt="Placeholder image">
@@ -80,34 +80,45 @@ const formatPost = (post) => {
                 </div>
                 <div class="media-content">
                     <p class="title is-4">${post.post_name}</p>
-                    <p class="subtitle is-6">@${post.user_name} ${post.user_firstname}</p>
+                    <p class="subtitle is-6">@${post.user_name} ${post.user_firstname} <time datetime="2016-1-1">${post.post_date}</time></p>
+                    
                 </div>
             </div>
-            <div class="content">
+            <hr class="m-0"/>
+            <div class="content p-4 mb-0">
                 ${post.post_content}
-                <br>
-                <time datetime="2016-1-1">${post.post_date}</time>
-                <div>${postLikes}</div>
+                <br />
+                <details class="content mt-2">
+                    <summary>Commentaire</summary>
+                    <div class="pl-5">${comments}</div>
+                </details>
             </div>
-            <div class="content">
-                ${comments}
-            </div>
+            <footer class="card-footer">
+                <a href="#" class="card-footer-item new-comment" onClick="reply(${post.post_pk_id})">Add comment</a>
+                <a href="#" class="card-footer-item">${postLikes}</a>
+            </footer>
         </div>
-        <button class="new-comment button is-warning is-light is-rounded" onClick="reply(${post.post_pk_id})">Comment</button>
+        
     </div>`;
 }
 
 const formatComment = (comment) => {
-    let commentLikes = formatLikes(comment.likes,comment.comment_pk_id,'comment')
+    let commentLikes = formatLikes(comment.likes,comment.comment_pk_id,'comment','small')
     return `<details>
                 <summary>${comment.comment_name} from @${comment.user_name} ${comment.user_firstname} ${commentLikes} </summary>
                 ${comment.comment_content}
             </details>`;
 }
 
-const formatLikes = (likes,id,type) => {
+const formatLikes = (likes,id,type,size = 'normal') => {
     let like = likes ? likes.likes_likes : '';
     let disslike = like ? likes.likes_disslikes : '';
+    if(size=='small'){
+        return `<span>
+                    <button id="like-${id}-${type}" class="has-text-success is-small" onClick="vote('like',${id},'${type}')">+ ${like}</button>
+                    <button id="disslike-${id}-${type}" class="has-text-danger is-small" onClick="vote('disslike',${id},'${type}')">- ${disslike}</button>
+                </span>`;
+    }
     return `<span>
                 <button id="like-${id}-${type}" class="button is-success is-small is-rounded" onClick="vote('like',${id},'${type}')">+ ${like}</button>
                 <button id="disslike-${id}-${type}" class="button is-danger is-small is-rounded" onClick="vote('disslike',${id},'${type}')">- ${disslike}</button>

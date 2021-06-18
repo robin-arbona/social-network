@@ -24,5 +24,7 @@ return function (App $app) {
 
     $app->get('/user[/{user_id}]', \App\Action\GetUser::class);
 
+    $app->get('/users', \App\Action\GetUsers::class);
+
     $app->post('/vote', \App\Action\Vote::class);
 };
