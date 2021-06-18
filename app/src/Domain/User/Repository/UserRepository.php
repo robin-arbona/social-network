@@ -70,7 +70,7 @@ final class UserRepository
 
     public function getAll()
     {
-        $sql = "SELECT * FROM user";
+        $sql = "SELECT * FROM user ORDER BY user_name ASC";
         $sth = $this->connection->prepare($sql);
         $sth->execute();
         return $sth->fetchAll(PDO::FETCH_ASSOC);
