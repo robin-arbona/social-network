@@ -38,3 +38,7 @@ html,body  {
     height: 100vh;
     overflow: auto;
 }
+
+.no-radius{
+    border-radius: 0 !important;
+}

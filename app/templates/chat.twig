@@ -6,20 +6,26 @@
   <p class="panel-tabs panel-chat">
     <a id="tab-main" class="is-active">Main</a>
   </p>
-  <div class="chat-place-holder">
+  <div class="chat-place-holder p-1">
     <div id="chat-main" class="chat-message" >
       
       
     </div>
   </div>
   <form id="chat-form">
-    <input type="text" id="chat-input">
-    <input type="submit" value="ok">
+    <div class="field has-addons">
+      <div class="control">
+        <input class="input no-radius" type="text" id="chat-input" placeholder="Tap your message here">
+      </div>
+      <div class="control">
+        <input class="button is-info no-radius" type="submit" value="ok">
+      </div>
+    </div>
   </form>
 </article>
 
 <article class="panel is-primary">
-  <p class="panel-heading">
+  <p class="panel-heading is-color-laplateform ">
     User connected
   </p>
 

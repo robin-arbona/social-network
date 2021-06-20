@@ -23,19 +23,17 @@
     <input type="hidden" id="pathMain" value="{{pathMain}}">
     {{ include('navbar.twig') }}
 </header>
-    
-
     <div class="columns m-1 pt-6">
-        <div class="column is-3">
+        <div class="column mt-3 is-3">
             <aside class="chat">
                 {{ include('chat.twig') }}
             </aside>
         </div>
-        <div id="content" class="column is-6 is-scrollable">
+        <div id="content" class="column is-6 mt-3 is-scrollable">
             {% block content %}
             {% endblock %}
         </div>
-        <div class="column is-3">
+        <div class="column is-3 mt-3">
             <aside class="members">
                 {{ include('members.twig') }}
             </aside>
