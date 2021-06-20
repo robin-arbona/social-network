@@ -224,6 +224,7 @@ function () {
   }, {
     key: "displayMember",
     value: function displayMember(member) {
+      console.log(member);
       var newEl = document.createElement('div');
       newEl.innerHTML = this.formatMember(member);
       this.rootEl.appendChild(newEl);
@@ -231,7 +232,7 @@ function () {
   }, {
     key: "formatMember",
     value: function formatMember(member) {
-      return "\n        <div class=\"media m-2\">\n            <div class=\"media-content\">\n                <p class=\"title has-text-right is-5\">".concat(member.user_firstname, "<br /><span class=\"is-uppercase\">").concat(member.user_name, "</span></p>\n                <p class=\"subtitle has-text-right is-7\">").concat(member.user_mail, "</p>\n            </div>\n            <div class=\"media-left is-vcentered\">\n                <figure class=\"image is-48x48\">\n                    <img class=\"is-rounded\" src=\"").concat(member.user_picture, "\" alt=\"Placeholder image\">\n                </figure>\n            </div>\n        </div>\n        <hr />");
+      return "\n        <div class=\"media m-2\">\n            <div class=\"media-content\">\n                <a href=\"".concat(pathMain, "/wall/").concat(member.user_pk_id, "\"><p  class=\"title has-text-right is-5\">").concat(member.user_firstname, "<br /><span class=\"is-uppercase\">").concat(member.user_name, "</span></p></a>\n                <p class=\"subtitle has-text-right is-7\">").concat(member.user_mail, "</p>\n            </div>\n            <div class=\"media-left is-vcentered\">\n                <figure class=\"image is-48x48\">\n                    <img class=\"is-rounded\" src=\"").concat(member.user_picture, "\" alt=\"Placeholder image\">\n                </figure>\n            </div>\n        </div>\n        <hr />");
     }
   }]);
 
