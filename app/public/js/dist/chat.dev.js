@@ -133,10 +133,12 @@ function () {
 
       this.inputEl.addEventListener('submit', function (e) {
         e.preventDefault();
+        console.log("#".concat(_this2.inputEl.id, " #chat-input"));
+        var input = document.querySelector("#".concat(_this2.inputEl.id, " #chat-input"));
 
-        _this2.sendMessage(_this2.inputEl.firstElementChild.value);
+        _this2.sendMessage(input.value);
 
-        _this2.inputEl.firstElementChild.value = '';
+        input.value = '';
       });
     }
   }, {

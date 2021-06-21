@@ -21,6 +21,6 @@ final class PageWall extends PageTwig
         ResponseInterface $response
     ): ResponseInterface {
 
-        return $this->twig->render($response, 'wall.twig');
+        return $this->twig->render($response, 'page.wall.twig');
     }
 }

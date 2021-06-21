@@ -21,6 +21,6 @@ final class PageConnexion extends PageTwig
         ResponseInterface $response
     ): ResponseInterface {
 
-        return $this->twig->render($response, 'connexion.twig');
+        return $this->twig->render($response, 'page.connexion.twig');
     }
 }

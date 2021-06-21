@@ -1,6 +1,9 @@
-{% extends 'main_template.twig'%}
+{% extends 'template.twig'%}
 
-
+{% block title %}
+    {{ parent() }}
+    Wall
+{% endblock %}
 {% block content %}
 {{pathMain}}
 <div class="post">

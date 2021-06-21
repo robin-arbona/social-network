@@ -1,23 +1,29 @@
-const pathMain = $('#pathMain').val();
+const pathMain = document.querySelector('#pathMain').value;
 
-function onSignIn(googleUser) {
+async function onSignIn(googleUser) {
     let auth = googleUser.getAuthResponse();
     let token = auth.id_token;
 
     setCookie("id_token",token,120);
 
-    $.ajax({
-        url: pathMain + "/googleAuth",
-        type: "POST",
-        data: { id_token: token }
-    }).done(() => {
+    let response = await fetch(pathMain + "/googleAuth",{
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_token: token }) 
+    })
+
+    if(response.ok){
         if (window.location.href.slice(-1) == '/') {
             window.location = pathMain + "/wall";
         }
-    }).fail(() => {
-        console.log("Fail");
-    })
+    } else {
+        console.error('Connexion failed',response)
+    }
 }
+
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -54,10 +60,13 @@ function signOut() {
 
 
 // New post
-document.querySelector('.new-post').addEventListener('click',async ()=>{
-    let content = await loadContent(pathMain + '/post/new/form');
-    displayModal("New post",content);
-})
+if(document.querySelector('.new-post')){
+    document.querySelector('.new-post').addEventListener('click',async ()=>{
+        let content = await loadContent(pathMain + '/post/new/form');
+        displayModal("New post",content);
+    })
+}
+
 
 const loadContent = (url) => {
     return fetch(url).then(reponse => reponse.text());
@@ -157,4 +166,6 @@ class MemberList {
     }
 }
 
-var members = new MemberList(document.querySelector('#members-list'))
+if(document.querySelector('#members-list')){
+    var members = new MemberList(document.querySelector('#members-list'))
+}

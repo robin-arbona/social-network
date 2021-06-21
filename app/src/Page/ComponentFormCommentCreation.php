@@ -21,6 +21,6 @@ final class ComponentFormCommentCreation extends PageTwig
         ResponseInterface $response
     ): ResponseInterface {
 
-        return $this->twig->render($response, 'comment.edit.twig');
+        return $this->twig->render($response, 'component.comment-form.twig');
     }
 }

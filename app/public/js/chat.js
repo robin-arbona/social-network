@@ -77,8 +77,10 @@ class Chat {
     initialiseChatForm(){
         this.inputEl.addEventListener('submit',(e)=>{
             e.preventDefault();
-            this.sendMessage(this.inputEl.firstElementChild.value);
-            this.inputEl.firstElementChild.value = '';
+            console.log(`#${this.inputEl.id} #chat-input`);
+            let input = document.querySelector(`#${this.inputEl.id} #chat-input`);
+            this.sendMessage(input.value);
+            input.value = '';
         })
     }
     sendMessage(msg){

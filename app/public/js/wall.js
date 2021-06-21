@@ -85,7 +85,7 @@ const formatPost = (post) => {
                 </div>
             </div>
             <hr class="m-0"/>
-            <div class="content p-4 mb-0">
+            <div class="content p-4 mb-0 is-small">
                 ${post.post_content}
                 <br />
                 <details class="content mt-2">

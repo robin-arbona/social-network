@@ -21,6 +21,6 @@ final class ComponentFormPostCreation extends PageTwig
         ResponseInterface $response
     ): ResponseInterface {
 
-        return $this->twig->render($response, 'post.edit.twig');
+        return $this->twig->render($response, 'component.post-form.twig');
     }
 }
