@@ -29,21 +29,28 @@ final class GetPost
         array $args
     ): ResponseInterface {
 
-        // Invoke the Domain with inputs and retain the result
-        // get posts
-        $result = $this->postFetcher->fetch($args, $this->postsPerPage);
+        //Check if user is authentified
+        if (isset($_SESSION["user"])) {
+            // Invoke the Domain with inputs and retain the result
+            // get posts
+            $result = $this->postFetcher->fetch($args, $this->postsPerPage);
 
-        // Get matching comments
-        $result = $this->commentFetcher->fetch($result);
+            // Get matching comments
+            $result = $this->commentFetcher->fetch($result);
 
-        // Get matching likes 
-        $result = $this->likesFetcher->fetch($result);
+            // Get matching likes 
+            $result = $this->likesFetcher->fetch($result);
 
 
-        if ($result["success"]) {
-            $status = 200;
+            if ($result["success"]) {
+                $status = 200;
+            } else {
+                $status = 500;
+            }
         } else {
-            $status = 500;
+            $result["success"] = false;
+            $result["message"] = 'Permission denied';
+            $status = 403;
         }
 
         // Build the HTTP response
