@@ -34,10 +34,10 @@ final class PostRepository
     public function newPost(array $post): int
     {
         $row = [
-            'post_name' => $post['name'],
-            'post_picture' => $post['picture'],
-            'post_content' => $post['content'],
-            'post_fk_user_id' => $post['post_fk_user_id']
+            'post_name' => htmlspecialchars($post['name']),
+            'post_picture' => htmlspecialchars($post['picture']),
+            'post_content' => htmlspecialchars($post['content']),
+            'post_fk_user_id' => htmlspecialchars($post['post_fk_user_id'])
         ];
         $sql = "INSERT INTO post SET 
                 post_name=:post_name, 

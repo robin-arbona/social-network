@@ -14,6 +14,8 @@ final class GetPost
 {
     private $postFetcher;
     private $postsPerPage;
+    private $likesFetcher;
+    private $commentFetcher;
 
     public function __construct(ContainerInterface $container, PostFetcher $postFetcher, CommentFetcher $commentFetcher, LikesFetcher $likesFetcher)
     {
@@ -23,12 +25,8 @@ final class GetPost
         $this->postsPerPage = $container->get('settings')['postsPerPage'];
     }
 
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args
-    ): ResponseInterface {
-
+    public function __invoke(ServerRequestInterface $request,  ResponseInterface $response, array $args): ResponseInterface
+    {
         //Check if user is authentified
         if (isset($_SESSION["user"])) {
             // Invoke the Domain with inputs and retain the result

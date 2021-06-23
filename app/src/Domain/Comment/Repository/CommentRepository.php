@@ -36,10 +36,10 @@ final class CommentRepository
     public function newComment(array $comment): int
     {
         $row = [
-            'comment_name' => $comment['name'],
-            'comment_content' => $comment['content'],
-            'comment_fk_user_id' => $comment['comment_fk_user_id'],
-            'comment_fk_post_id' => $comment['comment_fk_post_id']
+            'comment_name' => htmlspecialchars($comment['name']),
+            'comment_content' => htmlspecialchars($comment['content']),
+            'comment_fk_user_id' => htmlspecialchars($comment['comment_fk_user_id']),
+            'comment_fk_post_id' => htmlspecialchars($comment['comment_fk_post_id'])
         ];
         $sql = "INSERT INTO comment SET 
                 comment_name=:comment_name, 

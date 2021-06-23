@@ -36,7 +36,7 @@ io.on('connection', function (socket) {
       }
 
       io.emit('user list', extractUsersName(userList));
-    })["catch"](console.error);
+    })["catch"](console.error('Authentification failed'));
   });
   socket.on('chat message', function (msg) {
     if (newUser) {

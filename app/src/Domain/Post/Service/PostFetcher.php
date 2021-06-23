@@ -34,11 +34,12 @@ final class PostFetcher
      */
     public function fetch(array $args = [], int $postsPerPage = 10): array
     {
+        // Handle pagination
         $page =  isset($args["page"]) ? (int) $args["page"] : 1;
 
         $offset = $page == 1 ? 0 : ($page - 1) * $postsPerPage;
 
-        //Fetch Post
+        // Fetch Post by user_id or all post
         if (isset($args["user_id"])) {
             $posts = $this->repository->getPostsBydId($args["user_id"], $offset, $postsPerPage);
         } else {
