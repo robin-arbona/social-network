@@ -2,3 +2,4 @@ app/vendor
 .idea/
 .DS_Store
 server/node_modules
+back-office

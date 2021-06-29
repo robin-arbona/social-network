@@ -1,3 +1,6 @@
+import { hello } from "./test.js";
+
+
 const pathMain = document.querySelector('#pathMain').value;
 
 async function onSignIn(googleUser) {
@@ -169,3 +172,5 @@ class MemberList {
 if(document.querySelector('#members-list')){
     var members = new MemberList(document.querySelector('#members-list'))
 }
+
+
