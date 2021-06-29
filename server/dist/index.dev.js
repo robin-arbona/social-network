@@ -29,10 +29,19 @@ io.on('connection', function (socket) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return regeneratorRuntime.awrap(googleAuth.verify(id_token));
+            if (id_token) {
+              _context.next = 3;
+              break;
+            }
 
-          case 2:
+            console.error('Authentification failed: missing token');
+            return _context.abrupt("return");
+
+          case 3:
+            _context.next = 5;
+            return regeneratorRuntime.awrap(googleAuth.verify(id_token)["catch"]('Authentification failed'));
+
+          case 5:
             payload = _context.sent;
 
             if (payload) {
@@ -51,7 +60,7 @@ io.on('connection', function (socket) {
               console.error('Authentification failed', id_token);
             }
 
-          case 4:
+          case 7:
           case "end":
             return _context.stop();
         }

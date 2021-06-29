@@ -8,7 +8,7 @@ googleAuth.verify =  async (client_token) => {
   const ticket = await client.verifyIdToken({
       idToken: client_token,
       audience: CLIENT_ID
-  });
+  }).catch((error)=>{console.log(error,'Veriy failed')});
   const payload = ticket.getPayload();
   return payload;
 }

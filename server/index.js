@@ -21,7 +21,11 @@ io.on('connection', (socket) => {
     socket.join(socket.id);
 
     socket.on('identification', async function(id_token){
-      let payload = await googleAuth.verify(id_token)
+      if(!id_token){
+        console.error('Authentification failed: missing token')
+        return
+      }
+      let payload = await googleAuth.verify(id_token).catch('Authentification failed')
 
       if(payload){
         newUser = {

@@ -1,4 +1,4 @@
-import { getCookie } from "./cookie.js";
+import { getCookie } from "../lib/tools.js";
 
 export default class Chat {
     constructor(options){

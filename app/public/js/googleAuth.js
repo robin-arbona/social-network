@@ -1,12 +1,11 @@
 async function onSignIn(googleUser) {
-    let auth = googleUser.getAuthResponse();
-    let token = auth.id_token;
+    const auth = googleUser.getAuthResponse();
+    const token = auth.id_token;
+    const path = document.querySelector('#pathMain').value
 
     setCookie("id_token",token,120);
 
-    let path = document.querySelector('#pathMain').value
-
-    let response = await fetch(path + "/googleAuth",{
+    const response = await fetch(path + "/googleAuth",{
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -25,14 +24,14 @@ async function onSignIn(googleUser) {
 }
 
 function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
+    const auth2 = gapi.auth2.getAuthInstance();
+    const path = document.querySelector('#pathMain').value
+
     auth2.signOut().then(function () {
         auth2.disconnect();
-        console.log('User signed out.');
-        window.location = pathMain + "/";
+        window.location = path + "/";
     });
 }
-
 
 function setCookie(cname, cvalue, exmins) {
     var d = new Date();

@@ -1,6 +1,6 @@
-class PageLoader {
-    constructor(APIEntryPoint,param = null,target){
-        this.entryPoint = APIEntryPoint;
+export default class PostsLoader {
+    constructor({path,param,target}){
+        this.entryPoint = path;
         this.param = param;
         this.target = target;
         this.currentPage = 1;
@@ -57,12 +57,6 @@ class PageLoader {
         });
     }
 }
-
-let path = document.querySelector('#pathMain').getAttribute('value')
-let urlParsed = window.location.pathname.split('/')
-let param= urlParsed[urlParsed.indexOf('wall')+1] != undefined ? urlParsed[urlParsed.indexOf('wall')+1] : null;
-let target = document.querySelector('#loadContent');
-let pageLoader = new PageLoader(path+'/post',param,target)
 
 const formatPost = (post) => {
     let comments = post.comments.length > 0
@@ -145,3 +139,4 @@ const reply = async (id) => {
     let content = await loadContent(pathMain + '/comment/form');
     displayModal("New comment",content,id);
 }
+

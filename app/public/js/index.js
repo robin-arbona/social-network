@@ -1,53 +1,58 @@
-import Chat from "./chat.js"
+import Chat from "./component/chat.js";
+import navbar from "./component/navbar.js";
+import PostsLoader from "./component/postsLoader.js";
+import MemberList from "./component/memberList.js";
+import { loadContent } from "./lib/tools.js";
+import { displayModal } from "./component/modal.js";
 
 // Initialisation
-console.log()
-const pathMain = document.querySelector('#pathMain').value;
-
-// Google auth
-async function onSignIn(googleUser) {
-    console.log('yo');
-
-    let auth = googleUser.getAuthResponse();
-    let token = auth.id_token;
-
-    setCookie("id_token",token,120);
-
-    let response = await fetch(pathMain + "/googleAuth",{
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id_token: token }) 
-    })
-
-    if(response.ok){
-        if (window.location.href.slice(-1) == '/') {
-            window.location = pathMain + "/wall";
-        }
-    } else {
-        console.error('Connexion failed',response)
-    }
-}
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        auth2.disconnect();
-        console.log('User signed out.');
-        window.location = pathMain + "/";
-    });
-}
+const path = document.querySelector('#pathMain').value;
+const urlParsed = window.location.pathname.split('/');
 
 // Chat
 if(document.querySelector('.chat-message')){
-    let chatInit = {
+    const chatInit = {
         url: "social.network:3001",
         userListEl: document.querySelector('.chat-user-list'),
         inputEl: document.querySelector('#chat-form'),
         displayEl: document.querySelector('.chat-message')
-    }
+    };
     
-    var chat = new Chat(chatInit)
+    const chat = new Chat(chatInit);
+}
+
+// Navbar initialisation
+navbar.init();
+
+// New post button initialisation
+if(document.querySelector('.new-post')){
+
+    document.querySelector('.new-post').addEventListener('click',async ()=>{
+        let content = await loadContent(path + '/post/new/form');
+        displayModal("New post",content);
+    })
+
+}
+
+// Wall
+if(urlParsed.indexOf('wall')){
+
+    const loaderInit = {
+        path: path+'/post',
+        param: urlParsed[urlParsed.indexOf('wall')+1] != undefined ? urlParsed[urlParsed.indexOf('wall')+1] : null,
+        target: document.querySelector('#loadContent')
+    };
+
+    const pageLoader = new PostsLoader(loaderInit);
+}
+
+// Member List
+if(document.querySelector('#members-list')){
+    const membersInit = {
+        path,
+        rootEl: document.querySelector('#members-list')
+    };
+
+    const members = new MemberList(membersInit);
 }
 
