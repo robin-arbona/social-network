@@ -1,6 +1,8 @@
 import { removeAllChildNodes, postContent } from "../lib/tools.js";
 
 const displayModal = (title,content,param = null) => {
+    const path = document.querySelector('#pathMain').value;
+
     title & (document.querySelector("#modal-title").innerHTML = title);
     content & (document.querySelector("#modal-content").innerHTML = content);
     let form = document.querySelector(".form-modal");
@@ -9,7 +11,7 @@ const displayModal = (title,content,param = null) => {
     }
     content & form.addEventListener('submit',async function(e){
         e.preventDefault()
-        result = await postContent(this,pathMain+this.getAttribute('action'))
+        let result = await postContent(this,path+this.getAttribute('action'))
         if(result.success){
             closeModal(true);
         } else {
@@ -32,7 +34,7 @@ const closeModal = (reload) => {
         document.querySelector("#modal-title").innerHTML = "";
         document.querySelector("#modal-content").innerHTML = "";
         removeAllChildNodes(document.querySelector('.post'));
-        pageLoader = new PageLoader(path+'/post',param,target);
+        pageLoader = new PageLoader(path+'/posts',param,target);
     }
 
 }

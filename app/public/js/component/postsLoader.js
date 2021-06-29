@@ -1,3 +1,8 @@
+import {displayModal} from './modal.js';
+import { loadContent } from '../lib/tools.js';
+
+const path = document.querySelector('#pathMain').value;
+
 export default class PostsLoader {
     constructor({path,param,target}){
         this.entryPoint = path;
@@ -59,10 +64,17 @@ export default class PostsLoader {
 }
 
 const formatPost = (post) => {
-    let comments = post.comments.length > 0
+    const comments = post.comments.length > 0
         ? post.comments.map(comment => formatComment(comment)).join('') 
         : '<div>no comment</div>';
-    let postLikes =  formatLikes(post.likes,post.post_pk_id,"post");
+    const postLikes =  formatLikes(post.likes,post.post_pk_id,"post");
+    const userId = sessionStorage.getItem('user_id');
+
+    const owner = userId == post.post_fk_user_id ? true : '';
+    const editButton = `<a href="#" onClick="editPost(${post.post_pk_id})">Edit post</a>`;
+    const deleteButton = `<a href="#" onClick="deletePost(${post.post_pk_id})">Delete</a>`;
+
+
     return `
     <div class="card mb-6">
         <div class="card-content p-0">
@@ -82,13 +94,14 @@ const formatPost = (post) => {
             <div class="content p-4 mb-0 is-small">
                 ${post.post_content}
                 <br />
+                ${owner && editButton} | ${owner && deleteButton}
                 <details class="content mt-2">
                     <summary>Commentaire</summary>
                     <div class="pl-5">${comments}</div>
                 </details>
             </div>
             <footer class="card-footer">
-                <a href="#" class="card-footer-item new-comment" onClick="reply(${post.post_pk_id})">Add comment</a>
+                <a href="#" class="card-footer-item new-comment" onClick="replyPost(${post.post_pk_id})">Add comment</a>
                 <a href="#" class="card-footer-item">${postLikes}</a>
             </footer>
         </div>
@@ -126,7 +139,7 @@ const vote = async (type,id,element) => {
     vote.append("id",id)
     vote.append("element",element)
 
-    let result = await fetch("/vote", {
+    let result = await fetch(path + "/vote", {
         method: "POST",
         body: vote
     }).then(reponse => reponse.json())
@@ -135,8 +148,25 @@ const vote = async (type,id,element) => {
     document.querySelector(`#disslike-${id}-${element}`).innerText = `- ${result.total.likes_disslikes}`;
 }
 
-const reply = async (id) => {
-    let content = await loadContent(pathMain + '/comment/form');
+const replyPost = async (id) => {
+    let content = await loadContent(path+ '/comment/form');
     displayModal("New comment",content,id);
 }
 
+const editPost = async (id) => {
+    let content = await loadContent(path + '/post/form');
+    displayModal("Edit post",content,id);
+}
+
+const deletePost = async (id) => {
+    console.log('Trying to delete post',id);
+    let json = await fetch(path + "/post/" + id,{
+        method: "DELETE"
+    }).then(response => response.json())
+    console.log(json)
+}
+
+window.editPost = editPost;
+window.deletePost = deletePost;
+window.replyPost = replyPost;
+window.vote = vote;

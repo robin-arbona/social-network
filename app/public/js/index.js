@@ -1,6 +1,6 @@
 import Chat from "./component/chat.js";
 import navbar from "./component/navbar.js";
-import PostsLoader from "./component/postsLoader.js";
+import PostsLoader  from "./component/postsLoader.js";
 import MemberList from "./component/memberList.js";
 import { loadContent } from "./lib/tools.js";
 import { displayModal } from "./component/modal.js";
@@ -28,7 +28,7 @@ navbar.init();
 if(document.querySelector('.new-post')){
 
     document.querySelector('.new-post').addEventListener('click',async ()=>{
-        let content = await loadContent(path + '/post/new/form');
+        let content = await loadContent(path + '/post/form');
         displayModal("New post",content);
     })
 
@@ -38,7 +38,7 @@ if(document.querySelector('.new-post')){
 if(urlParsed.indexOf('wall')){
 
     const loaderInit = {
-        path: path+'/post',
+        path: path+'/posts',
         param: urlParsed[urlParsed.indexOf('wall')+1] != undefined ? urlParsed[urlParsed.indexOf('wall')+1] : null,
         target: document.querySelector('#loadContent')
     };

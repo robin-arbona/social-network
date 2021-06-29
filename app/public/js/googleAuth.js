@@ -15,6 +15,10 @@ async function onSignIn(googleUser) {
     })
 
     if(response.ok){
+        let json = await response.json();
+
+        sessionStorage.setItem('user_id',json.id)
+
         if (window.location.href.slice(-1) == '/') {
             window.location = path + "/wall";
         }

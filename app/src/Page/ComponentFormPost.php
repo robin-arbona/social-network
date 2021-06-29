@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 
-final class ComponentFormPostCreation extends PageTwig
+final class ComponentFormPost extends PageTwig
 {
     protected $twig;
 

@@ -1,28 +1,44 @@
 <?php
 
 use Slim\App;
+use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
 
+    // Connexion page
     $app->get('/', \App\Page\PageConnexion::class);
 
+    // Authentification
     $app->post('/googleAuth', \App\Action\UserAuth::class);
 
+    // Wall page(s)
     $app->get('/wall[/{user_id}]', \App\Page\PageWall::class);
 
-    $app->get('/post/new/form', \App\Page\ComponentFormPostCreation::class);
+    // Post(s)
+    $app->group('/post', function (RouteCollectorProxy $group) {
 
-    $app->get('/comment/form', \App\Page\ComponentFormCommentCreation::class);
+        $group->get('/form', \App\Page\ComponentFormPost::class);
 
-    $app->post('/post/new/db', \App\Action\CreatePost::class);
+        $group->post('', \App\Action\CreatePost::class);
+
+        $group->delete('/{post_id}', \App\Action\DeletePost::class);
+    });
+
+    $app->get('/posts[/{page}[/{user_id}]]', \App\Action\GetPost::class);
+
+
+    // Comment(s)
+    $app->get('/comment/form', \App\Page\ComponentFormComment::class);
 
     $app->post('/comment/{id}', \App\Action\CreateComment::class);
 
-    $app->get('/post[/{page}[/{user_id}]]', \App\Action\GetPost::class);
 
+    // User(s)
     $app->get('/user[/{user_id}]', \App\Action\GetUser::class);
 
     $app->get('/users', \App\Action\GetUsers::class);
 
+
+    // Voting
     $app->post('/vote', \App\Action\Vote::class);
 };

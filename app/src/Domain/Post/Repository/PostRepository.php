@@ -104,4 +104,26 @@ final class PostRepository
         $sql = $userId == 0 ? $sql : $sql . "WHERE post_fk_user_id = $userId";
         return $this->connection->query($sql . ";")->fetchColumn();
     }
+
+    /**
+     * Delete post
+     */
+    public function deletePost(int $postId)
+    {
+        $sql = "DELETE FROM `post` WHERE `post_pk_id` = $postId;";
+        return $this->connection->exec($sql);
+    }
+
+    /**
+     * Get post owner
+     * 
+     * @param int $postId - Post ID
+     * 
+     * @param int $userId - Owner (user) ID
+     */
+    public function getOwner(int $postId): int
+    {
+        $sql = "SELECT `post_fk_user_id` FROM `post` WHERE `post_pk_id` = $postId;";
+        return $this->connection->query($sql)->fetchColumn();
+    }
 }
