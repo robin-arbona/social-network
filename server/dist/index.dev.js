@@ -23,20 +23,40 @@ var id = function id() {
 io.on('connection', function (socket) {
   var newUser = null;
   socket.join(socket.id);
-  socket.on('identification', function (msg) {
-    googleAuth.verify(msg).then(function (payload) {
-      newUser = {
-        id: socket.id,
-        name: payload.name
-      };
+  socket.on('identification', function _callee(id_token) {
+    var payload;
+    return regeneratorRuntime.async(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return regeneratorRuntime.awrap(googleAuth.verify(id_token));
 
-      if (isNewUser(newUser, userList) == false) {
-        userList.push(newUser);
-        io.emit('chat message', newUser.name + ' has joined the room');
+          case 2:
+            payload = _context.sent;
+
+            if (payload) {
+              newUser = {
+                id: socket.id,
+                name: payload.name
+              };
+
+              if (isNewUser(newUser, userList) == false) {
+                userList.push(newUser);
+                io.emit('chat message', newUser.name + ' has joined the room');
+              }
+
+              io.emit('user list', extractUsersName(userList));
+            } else {
+              console.error('Authentification failed', id_token);
+            }
+
+          case 4:
+          case "end":
+            return _context.stop();
+        }
       }
-
-      io.emit('user list', extractUsersName(userList));
-    })["catch"](console.error('Authentification failed'));
+    });
   });
   socket.on('chat message', function (msg) {
     if (newUser) {

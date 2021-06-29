@@ -1,66 +1,13 @@
 "use strict";
 
-var _test = require("./test.js");
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var pathMain = document.querySelector('#pathMain').value;
-
-function onSignIn(googleUser) {
-  var auth, token, response;
-  return regeneratorRuntime.async(function onSignIn$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          auth = googleUser.getAuthResponse();
-          token = auth.id_token;
-          setCookie("id_token", token, 120);
-          _context.next = 5;
-          return regeneratorRuntime.awrap(fetch(pathMain + "/googleAuth", {
-            method: "POST",
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              id_token: token
-            })
-          }));
-
-        case 5:
-          response = _context.sent;
-
-          if (response.ok) {
-            if (window.location.href.slice(-1) == '/') {
-              window.location = pathMain + "/wall";
-            }
-          } else {
-            console.error('Connexion failed', response);
-          }
-
-        case 7:
-        case "end":
-          return _context.stop();
-      }
-    }
-  });
-}
-
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    auth2.disconnect();
-    console.log('User signed out.');
-    window.location = pathMain + "/";
-  });
-} // Navbar
+// Navbar
 // Get all "navbar-burger" elements
-
-
 var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0); // Check if there are any navbar burgers
 
 if ($navbarBurgers.length > 0) {
@@ -81,20 +28,20 @@ if ($navbarBurgers.length > 0) {
 if (document.querySelector('.new-post')) {
   document.querySelector('.new-post').addEventListener('click', function _callee() {
     var content;
-    return regeneratorRuntime.async(function _callee$(_context2) {
+    return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context.prev = _context.next) {
           case 0:
-            _context2.next = 2;
+            _context.next = 2;
             return regeneratorRuntime.awrap(loadContent(pathMain + '/post/new/form'));
 
           case 2:
-            content = _context2.sent;
+            content = _context.sent;
             displayModal("New post", content);
 
           case 4:
           case "end":
-            return _context2.stop();
+            return _context.stop();
         }
       }
     });
@@ -109,12 +56,12 @@ var loadContent = function loadContent(url) {
 
 var postContent = function postContent(formElement, url) {
   var form, json;
-  return regeneratorRuntime.async(function postContent$(_context3) {
+  return regeneratorRuntime.async(function postContent$(_context2) {
     while (1) {
-      switch (_context3.prev = _context3.next) {
+      switch (_context2.prev = _context2.next) {
         case 0:
           form = new FormData(formElement);
-          _context3.next = 3;
+          _context2.next = 3;
           return regeneratorRuntime.awrap(fetch(url, {
             method: "POST",
             body: form
@@ -123,12 +70,12 @@ var postContent = function postContent(formElement, url) {
           }));
 
         case 3:
-          json = _context3.sent;
-          return _context3.abrupt("return", json);
+          json = _context2.sent;
+          return _context2.abrupt("return", json);
 
         case 5:
         case "end":
-          return _context3.stop();
+          return _context2.stop();
       }
     }
   });
@@ -146,16 +93,16 @@ var displayModal = function displayModal(title, content) {
 
   content & form.addEventListener('submit', function _callee2(e) {
     var message, key, element;
-    return regeneratorRuntime.async(function _callee2$(_context4) {
+    return regeneratorRuntime.async(function _callee2$(_context3) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
             e.preventDefault();
-            _context4.next = 3;
+            _context3.next = 3;
             return regeneratorRuntime.awrap(postContent(this, pathMain + this.getAttribute('action')));
 
           case 3:
-            result = _context4.sent;
+            result = _context3.sent;
 
             if (result.success) {
               closeModal(true);
@@ -172,7 +119,7 @@ var displayModal = function displayModal(title, content) {
 
           case 5:
           case "end":
-            return _context4.stop();
+            return _context3.stop();
         }
       }
     }, null, this);
@@ -198,14 +145,7 @@ var removeAllChildNodes = function removeAllChildNodes(parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
-};
-
-function setCookie(cname, cvalue, exmins) {
-  var d = new Date();
-  d.setTime(d.getTime() + exmins * 60 * 1000);
-  var expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-} // Members List
+}; // Members List
 
 
 var MemberList =
@@ -223,25 +163,25 @@ function () {
     value: function getList() {
       var _this = this;
 
-      return regeneratorRuntime.async(function getList$(_context5) {
+      return regeneratorRuntime.async(function getList$(_context4) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
               console.log(pathMain);
-              _context5.next = 3;
+              _context4.next = 3;
               return regeneratorRuntime.awrap(fetch(pathMain + '/users').then(function (r) {
                 return r.json();
               }));
 
             case 3:
-              this.members = _context5.sent;
+              this.members = _context4.sent;
               this.members.data.forEach(function (member) {
                 return _this.displayMember(member);
               });
 
             case 5:
             case "end":
-              return _context5.stop();
+              return _context4.stop();
           }
         }
       }, null, this);

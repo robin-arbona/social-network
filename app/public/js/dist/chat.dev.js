@@ -1,5 +1,12 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _cookie = require("./cookie.js");
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -37,7 +44,7 @@ function () {
     key: "connect",
     value: function connect(url) {
       this.socket = io(url);
-      this.socket.emit('identification', getCookie('id_token'));
+      this.socket.emit('identification', (0, _cookie.getCookie)('id_token'));
     }
   }, {
     key: "initialiseSocket",
@@ -99,8 +106,7 @@ function () {
     }
   }, {
     key: "onStateChanges",
-    value: function onStateChanges(state) {
-      console.log(state);
+    value: function onStateChanges(state) {//console.log(state);
     }
   }, {
     key: "updateMessage",
@@ -133,7 +139,6 @@ function () {
 
       this.inputEl.addEventListener('submit', function (e) {
         e.preventDefault();
-        console.log("#".concat(_this2.inputEl.id, " #chat-input"));
         var input = document.querySelector("#".concat(_this2.inputEl.id, " #chat-input"));
 
         _this2.sendMessage(input.value);
@@ -164,6 +169,8 @@ function () {
 
   return Chat;
 }();
+
+exports["default"] = Chat;
 
 var initiateUserItem = function initiateUserItem(user) {
   var callback = function callback(e) {
@@ -208,16 +215,10 @@ var initTabNavigation = function initTabNavigation() {
 };
 
 var notify = function notify(tab) {
-  console.log('New message', tab);
-
   if (!tab.classList.contains('is-active')) {
     tab.classList.add('notify');
   }
 };
-
-function insertAfter(newNode, referenceNode) {
-  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
 
 var select = function select(tab) {
   var activeEl = document.querySelector(".panel-tabs > a.is-active");
@@ -228,34 +229,6 @@ var select = function select(tab) {
   document.querySelector('#' + tab.id.replace('tab-', 'chat-')).style = "display:block";
 };
 
-var chatInit = {
-  url: "social.network:3001",
-  userListEl: document.querySelector('.chat-user-list'),
-  inputEl: document.querySelector('#chat-form'),
-  displayEl: document.querySelector('.chat-message')
-};
-var chat = new Chat(chatInit);
-
 var formatUser = function formatUser(user) {
   return "\n    <a class=\"panel-block is-active user-item\">".concat(user, "</a>");
 };
-
-function getCookie(cname) {
-  var name = cname + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-
-  return "";
-}

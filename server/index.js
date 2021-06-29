@@ -20,20 +20,23 @@ io.on('connection', (socket) => {
 
     socket.join(socket.id);
 
-    socket.on('identification', (msg)=>{
-      googleAuth.verify(msg)
-        .then((payload)=>{
-          newUser = {
-            id: socket.id, 
-            name: payload.name
-          };
-          if(isNewUser(newUser,userList) == false){
-            userList.push(newUser)
-            io.emit('chat message', newUser.name + ' has joined the room');
-          }
-          io.emit('user list', extractUsersName(userList));
-        })
-        .catch(console.error('Authentification failed'));
+    socket.on('identification', async function(id_token){
+      let payload = await googleAuth.verify(id_token)
+
+      if(payload){
+        newUser = {
+          id: socket.id, 
+          name: payload.name
+        };
+        if(isNewUser(newUser,userList) == false){
+          userList.push(newUser)
+          io.emit('chat message', newUser.name + ' has joined the room');
+        }
+        io.emit('user list', extractUsersName(userList));
+      } else {
+        console.error('Authentification failed',id_token)
+      }
+  
     })
 
     socket.on('chat message', (msg) => {

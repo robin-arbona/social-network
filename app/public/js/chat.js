@@ -1,4 +1,6 @@
-class Chat {
+import { getCookie } from "./cookie.js";
+
+export default class Chat {
     constructor(options){
         this.state = {
             userList : [],
@@ -58,7 +60,7 @@ class Chat {
         return this.state
     }
     onStateChanges(state){
-        console.log(state);
+        //console.log(state);
     }
     updateMessage(msg,element = this.displayEl, position = 'left'){
         element.innerHTML +=  `<p class="has-text-${position}">${msg}</p>`;
@@ -77,7 +79,6 @@ class Chat {
     initialiseChatForm(){
         this.inputEl.addEventListener('submit',(e)=>{
             e.preventDefault();
-            console.log(`#${this.inputEl.id} #chat-input`);
             let input = document.querySelector(`#${this.inputEl.id} #chat-input`);
             this.sendMessage(input.value);
             input.value = '';
@@ -144,14 +145,9 @@ const initTabNavigation = ()=>{
 }
 
 const notify = (tab)=>{
-    console.log('New message',tab)
     if(!tab.classList.contains('is-active')){
         tab.classList.add('notify')
     }
-}
-
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
 const select = (tab) =>{
@@ -164,34 +160,7 @@ const select = (tab) =>{
     document.querySelector('#'+tab.id.replace('tab-','chat-')).style="display:block";
 }
 
-let chatInit = {
-    url: "social.network:3001",
-    userListEl: document.querySelector('.chat-user-list'),
-    inputEl: document.querySelector('#chat-form'),
-    displayEl: document.querySelector('.chat-message')
-}
-
-var chat = new Chat(chatInit)
-
 const formatUser = (user) => {
     return `
     <a class="panel-block is-active user-item">${user}</a>`;
 }
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
-
-
