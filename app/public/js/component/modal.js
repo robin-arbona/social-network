@@ -1,4 +1,5 @@
 import { removeAllChildNodes, postContent } from "../lib/tools.js";
+import PostsLoader from "./postsLoader.js";
 
 const displayModal = (title,content,param = null) => {
     const path = document.querySelector('#pathMain').value;
@@ -33,8 +34,7 @@ const closeModal = (reload) => {
     if(reload){
         document.querySelector("#modal-title").innerHTML = "";
         document.querySelector("#modal-content").innerHTML = "";
-        removeAllChildNodes(document.querySelector('.post'));
-        pageLoader = new PageLoader(path+'/posts',param,target);
+        postsLoader.reset()
     }
 
 }

@@ -43,7 +43,8 @@ if(urlParsed.indexOf('wall')){
         target: document.querySelector('#loadContent')
     };
 
-    const pageLoader = new PostsLoader(loaderInit);
+    const postsLoader = new PostsLoader(loaderInit);
+    window.postsLoader = postsLoader;
 }
 
 // Member List

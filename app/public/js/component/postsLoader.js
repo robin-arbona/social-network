@@ -1,5 +1,5 @@
 import {displayModal} from './modal.js';
-import { loadContent } from '../lib/tools.js';
+import { loadContent, removeAllChildNodes } from '../lib/tools.js';
 
 const path = document.querySelector('#pathMain').value;
 
@@ -61,6 +61,13 @@ export default class PostsLoader {
             document.querySelector(".post").appendChild(postElement);
         });
     }
+    reset(){
+        this.currentPage = 1;
+        this.totalPage = 1;
+        this.observer.disconnect();
+        this.initIntersectionObserver();
+        removeAllChildNodes(document.querySelector('.post'));
+    }
 }
 
 const formatPost = (post) => {
@@ -71,7 +78,7 @@ const formatPost = (post) => {
     const userId = sessionStorage.getItem('user_id');
 
     const owner = userId == post.post_fk_user_id ? true : '';
-    const editButton = `<a href="#" onClick="editPost(${post.post_pk_id})">Edit post</a>`;
+    const editButton = `<a href="#" onClick="editPost(${post.post_pk_id})">Edit</a>`;
     const deleteButton = `<a href="#" onClick="deletePost(${post.post_pk_id})">Delete</a>`;
 
 
@@ -93,8 +100,7 @@ const formatPost = (post) => {
             <hr class="m-0"/>
             <div class="content p-4 mb-0 is-small">
                 ${post.post_content}
-                <br />
-                ${owner && editButton} | ${owner && deleteButton}
+                <p class="has-text-right">${owner && editButton} ${owner && deleteButton}</p>
                 <details class="content mt-2">
                     <summary>Commentaire</summary>
                     <div class="pl-5">${comments}</div>
@@ -162,8 +168,8 @@ const deletePost = async (id) => {
     console.log('Trying to delete post',id);
     let json = await fetch(path + "/post/" + id,{
         method: "DELETE"
-    }).then(response => response.json())
-    console.log(json)
+    }).then(response => response.json());
+    postsLoader.reset();
 }
 
 window.editPost = editPost;

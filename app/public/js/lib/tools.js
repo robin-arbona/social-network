@@ -54,6 +54,8 @@ const postContent = async (formElement,url) => {
   return json
 }
 
+
+
 export {
   getCookie,
   removeAllChildNodes,
