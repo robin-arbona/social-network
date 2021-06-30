@@ -54,11 +54,24 @@ const postContent = async (formElement,url) => {
   return json
 }
 
+/**
+ * Create a document fragment with html code provided (wrapped in a div)
+ * @param {string} html 
+ * @returns {fragment}
+ */
+const createFragment = (html) => {
+  const fragment = new DocumentFragment()
+  const div = document.createElement('div')
+  div.innerHTML = html;
+  fragment.appendChild(div);
+  return fragment
+}
 
 
 export {
   getCookie,
   removeAllChildNodes,
   loadContent,
-  postContent
+  postContent,
+  createFragment
 }

@@ -70,6 +70,23 @@ final class PostRepository
     }
 
     /**
+     * Get post
+     * 
+     * @param int $offset - Result offset
+     * 
+     * @param int $limit - Nb max of result
+     * 
+     * @return array $posts - set of result
+     */
+    public function getPost(int $postId)
+    {
+        $sql = "SELECT * 
+                FROM `post` 
+                WHERE `post_pk_id` = $postId;";
+        return $this->connection->query($sql)->fetch();
+    }
+
+    /**
      * Get posts by id
      * 
      * @param int $userId - user ID

@@ -5,7 +5,7 @@ const displayModal = (title,content,param = null) => {
     const path = document.querySelector('#pathMain').value;
 
     title & (document.querySelector("#modal-title").innerHTML = title);
-    content & (document.querySelector("#modal-content").innerHTML = content);
+    content & (document.querySelector("#modal-content").appendChild(content));
     let form = document.querySelector(".form-modal");
     if(param != null){
         form.setAttribute('action',form.getAttribute('action') + '/' + param);

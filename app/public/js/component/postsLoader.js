@@ -1,5 +1,5 @@
 import {displayModal} from './modal.js';
-import { loadContent, removeAllChildNodes } from '../lib/tools.js';
+import { loadContent, removeAllChildNodes, createFragment } from '../lib/tools.js';
 
 const path = document.querySelector('#pathMain').value;
 
@@ -160,7 +160,16 @@ const replyPost = async (id) => {
 }
 
 const editPost = async (id) => {
-    let content = await loadContent(path + '/post/form');
+    const content = await loadContent(path + '/post/form');
+    const post = await loadContent(path +'/post/'+id);
+
+    const fragment = createFragment(content);
+
+    fragment.querySelector('.textarea').value = post.post.post_content;
+    fragment.querySelector('.input-picture').value = post.post.post_picture;
+    fragment.querySelector('.input-name').value = post.post.post_name;
+    fragment.querySelector('.form-modal').setAttribute('methode','PUT');
+
     displayModal("Edit post",content,id);
 }
 
