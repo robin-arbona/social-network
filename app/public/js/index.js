@@ -2,7 +2,7 @@ import Chat from "./component/chat.js";
 import navbar from "./component/navbar.js";
 import PostsLoader  from "./component/postsLoader.js";
 import MemberList from "./component/memberList.js";
-import { loadContent } from "./lib/tools.js";
+import { loadContent, createFragment } from "./lib/tools.js";
 import { displayModal, initModal } from "./component/modal.js";
 
 // Initialisation
@@ -29,8 +29,9 @@ navbar.init();
 if(document.querySelector('.new-post')){
 
     document.querySelector('.new-post').addEventListener('click',async ()=>{
-        let content = await loadContent(path + '/post/form');
-        displayModal("New post",content);
+        const content = await loadContent(path + '/post/form');
+        const fragment = createFragment(content);
+        displayModal("New post",fragment);
     })
 
 }

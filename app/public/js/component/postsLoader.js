@@ -155,8 +155,10 @@ const vote = async (type,id,element) => {
 }
 
 const replyPost = async (id) => {
-    let content = await loadContent(path+ '/comment/form');
-    displayModal("New comment",content,id);
+    const content = await loadContent(path+ '/comment/form');
+    const fragment = createFragment(content);
+
+    displayModal("New comment",fragment,id);
 }
 
 const editPost = async (id) => {
