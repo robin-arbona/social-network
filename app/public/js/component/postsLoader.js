@@ -1,5 +1,5 @@
 import {displayModal} from './modal.js';
-import { loadContent, removeAllChildNodes, createFragment } from '../lib/tools.js';
+import { loadContent, removeAllChildNodes, createFragment, loadJson } from '../lib/tools.js';
 
 const path = document.querySelector('#pathMain').value;
 
@@ -161,7 +161,7 @@ const replyPost = async (id) => {
 
 const editPost = async (id) => {
     const content = await loadContent(path + '/post/form');
-    const post = await loadContent(path +'/post/'+id);
+    const post = await loadJson(path +'/post/'+id);
 
     const fragment = createFragment(content);
 
@@ -170,7 +170,7 @@ const editPost = async (id) => {
     fragment.querySelector('.input-name').value = post.post.post_name;
     fragment.querySelector('.form-modal').setAttribute('methode','PUT');
 
-    displayModal("Edit post",content,id);
+    displayModal("Edit post",fragment,id);
 }
 
 const deletePost = async (id) => {

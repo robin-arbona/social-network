@@ -33,10 +33,20 @@ const removeAllChildNodes = (parent) => {
 /**
  * Fetch content and return string
  * @param {string} url - Url where fetch content
- * @returns {string} - Content
+ * @returns {string} - Content format Text
  */
 const loadContent = (url) => {
   return fetch(url).then(reponse => reponse.text());
+}
+
+
+/**
+ * Fetch content and return JSON
+ * @param {string} url - Url where fetch content
+ * @returns {string} - Content format Json
+ */
+const loadJson = (url) => {
+  return fetch(url).then(response => response.json());
 }
 
 /**
@@ -72,6 +82,7 @@ export {
   getCookie,
   removeAllChildNodes,
   loadContent,
+  loadJson,
   postContent,
   createFragment
 }

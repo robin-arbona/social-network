@@ -1,5 +1,9 @@
-import { removeAllChildNodes, postContent } from "../lib/tools.js";
-import PostsLoader from "./postsLoader.js";
+import { postContent } from "../lib/tools.js";
+
+const initModal = ()=>{
+    document.querySelector(".delete").addEventListener('click',()=>{closeModal(false)});
+}
+
 
 const displayModal = (title,content,param = null) => {
     const path = document.querySelector('#pathMain').value;
@@ -25,7 +29,6 @@ const displayModal = (title,content,param = null) => {
         }
  
     });
-    document.querySelector(".delete").addEventListener('click',()=>{closeModal(false)});
     document.querySelector(".modal").classList.toggle("is-active");
 }
 
@@ -41,7 +44,8 @@ const closeModal = (reload) => {
 
 export {
     displayModal,
-    closeModal
+    closeModal,
+    initModal
 }
 
 

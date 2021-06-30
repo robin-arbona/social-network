@@ -3,11 +3,12 @@ import navbar from "./component/navbar.js";
 import PostsLoader  from "./component/postsLoader.js";
 import MemberList from "./component/memberList.js";
 import { loadContent } from "./lib/tools.js";
-import { displayModal } from "./component/modal.js";
+import { displayModal, initModal } from "./component/modal.js";
 
 // Initialisation
 const path = document.querySelector('#pathMain').value;
 const urlParsed = window.location.pathname.split('/');
+initModal();
 
 // Chat
 if(document.querySelector('.chat-message')){
