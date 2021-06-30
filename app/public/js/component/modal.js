@@ -1,4 +1,4 @@
-import { postContent } from "../lib/tools.js";
+import { postContent, removeAllChildNodes } from "../lib/tools.js";
 
 const initModal = ()=>{
     document.querySelector(".delete").addEventListener('click',()=>{closeModal(false)});
@@ -34,6 +34,9 @@ const displayModal = (title,content,param = null) => {
 
 const closeModal = (reload) => {   
     document.querySelector(".modal").classList.toggle("is-active");
+
+    removeAllChildNodes(document.querySelector("#modal-content"))
+
     if(reload){
         document.querySelector("#modal-title").innerHTML = "";
         document.querySelector("#modal-content").innerHTML = "";
