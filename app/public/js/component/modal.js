@@ -35,7 +35,7 @@ const displayModal = (title,content,param = null) => {
 const closeModal = (reload) => {   
     document.querySelector(".modal").classList.toggle("is-active");
 
-    removeAllChildNodes(document.querySelector("#modal-content"))
+    removeAllChildNodes(document.querySelector("#modal-content"));
 
     if(reload){
         document.querySelector("#modal-title").innerHTML = "";
