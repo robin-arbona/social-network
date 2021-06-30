@@ -57,8 +57,9 @@ const loadJson = (url) => {
  */
 const postContent = async (formElement,url) => {
   let form = new FormData(formElement);
+  let method = formElement.getAttribute('method')
   let json = await fetch(url, {
-    method: "POST",
+    method: method,
     body: form
   }).then(response => response.json())
   return json
@@ -86,3 +87,4 @@ export {
   postContent,
   createFragment
 }
+

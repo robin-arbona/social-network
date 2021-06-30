@@ -23,7 +23,8 @@ return function (App $app) {
 
         $group->delete('/{post_id:[0-9]+}', \App\Action\DeletePost::class);
 
-        $group->put('/{post_id:[0-9]+}', \App\Action\EditPost::class);
+        // Put method doesn't allow me to get parsed body .. Post method use instead
+        $group->post('/edit/{post_id:[0-9]+}', \App\Action\EditPost::class);
 
         $group->get('/form', \App\Page\ComponentFormPost::class);
     });

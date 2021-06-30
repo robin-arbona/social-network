@@ -25,7 +25,7 @@ final class PostRepository
     }
 
     /**
-     * Insert user row.
+     * Insert post row.
      *
      * @param array $post The post
      *
@@ -48,6 +48,33 @@ final class PostRepository
         $this->connection->prepare($sql)->execute($row);
 
         return (int)$this->connection->lastInsertId();
+    }
+
+
+    /**
+     * Insert post row.
+     *
+     * @param int $postId Post id to update
+     * 
+     * @param array $post Post data
+     *
+     * @return bool Success/Failure
+     */
+    public function editPost(int $postId, array $post): bool
+    {
+        $row = [
+            'post_name' => htmlspecialchars($post['name']),
+            'post_picture' => htmlspecialchars($post['picture']),
+            'post_content' => htmlspecialchars($post['content']),
+            'post_pk_id' => htmlspecialchars($postId)
+        ];
+        $sql = "UPDATE post SET 
+                post_name=:post_name, 
+                post_picture=:post_picture, 
+                post_content=:post_content
+                WHERE post_pk_id=:post_pk_id;";
+
+        return $this->connection->prepare($sql)->execute($row);
     }
 
     /**

@@ -12,12 +12,9 @@ html,body  {
 }
 
 .notify::after {
-    content: "+";
-    color: red;
-    background-color: black;
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    content: " ㋡";
+    font-weight: bolder;
+    color: #89C1D0;
 }
 
 .connexion{
