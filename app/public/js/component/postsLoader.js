@@ -102,7 +102,7 @@ const formatPost = (post) => {
         <div class="card-content p-0">
             <div class="media p-4 mb-0">
                 <div class="media-left">
-                <figure class="image is-48x48">
+                <figure class="image is-48x48 mr-2">
                     <img class="is-rounded" src="${
                       post.user_picture
                     }" alt="Placeholder image">
