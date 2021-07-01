@@ -39,3 +39,7 @@ html,body  {
 .no-radius{
     border-radius: 0 !important;
 }
+
+.is-cover{
+    object-fit: cover;
+}

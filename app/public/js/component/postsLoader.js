@@ -81,9 +81,17 @@ const formatPost = (post) => {
     const editButton = `<a href="#" onClick="editPost(${post.post_pk_id})">Edit</a>`;
     const deleteButton = `<a href="#" onClick="deletePost(${post.post_pk_id})">Delete</a>`;
 
+    const cardImage = post.post_picture.length > 0 
+    ? `<div class="card-image">
+            <figure class="image is-3by1">
+                <img class="is-cover" src="${path}/image/upload/${post.post_picture}" alt="Placeholder image">
+            </figure>
+        </div>` 
+    : '';
 
     return `
     <div class="card mb-6">
+        ${cardImage}
         <div class="card-content p-0">
             <div class="media p-4 mb-0">
                 <div class="media-left">

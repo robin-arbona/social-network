@@ -112,6 +112,23 @@ final class PostRepository
     }
 
     /**
+     * Get picName
+     * 
+     * @param int $offset - Result offset
+     * 
+     * @param int $limit - Nb max of result
+     * 
+     * @return array $posts - set of result
+     */
+    public function getPicName(int $postId)
+    {
+        $sql = "SELECT `post_picture` 
+                FROM `post` 
+                WHERE `post_pk_id` = $postId;";
+        return $this->connection->query($sql)->fetchColumn();
+    }
+
+    /**
      * Get posts by id
      * 
      * @param int $userId - user ID

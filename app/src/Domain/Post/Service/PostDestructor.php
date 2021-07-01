@@ -2,6 +2,7 @@
 
 namespace App\Domain\Post\Service;
 
+use App\Domain\File\Service\FileDestructor;
 use App\Domain\Post\Repository\PostRepository;
 use App\Exception\AuthorizationException;
 use App\Exception\ValidationException;
@@ -15,15 +16,20 @@ final class PostDestructor
      * @var PostRepository
      */
     private $repository;
+    /**
+     * @var FileDestructor
+     */
+    private $fileDestructor;
 
     /**
      * The constructor.
      *
      * @param PostRepository $repository The repository
      */
-    public function __construct(PostRepository $repository)
+    public function __construct(PostRepository $repository, FileDestructor $fileDestructor)
     {
         $this->repository = $repository;
+        $this->fileDestructor = $fileDestructor;
     }
 
     /**
@@ -37,7 +43,13 @@ final class PostDestructor
 
         $this->validateAuthorization($postId);
 
+        $filename = $this->repository->getPicName($postId);
+
         $success = $this->repository->deletePost($postId);
+
+        if ($success && is_string($filename)) {
+            $this->fileDestructor->delete($filename);
+        }
 
         $result = [];
 
@@ -51,6 +63,7 @@ final class PostDestructor
 
         return $result;
     }
+
 
 
     /**

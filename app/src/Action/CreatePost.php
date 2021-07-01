@@ -2,6 +2,7 @@
 
 namespace App\Action;
 
+use App\Domain\File\Service\FileDestructor;
 use App\Domain\File\Service\FileUploader;
 use App\Domain\Post\Service\PostCreator;
 use App\Exception\ValidationException;
@@ -13,13 +14,13 @@ final class CreatePost
 {
     private $postCreator;
     private $fileUploader;
-    private $directory;
+    private $fileDestructor;
 
-    public function __construct(PostCreator $postCreator, FileUploader $fileUploader, ContainerInterface $container)
+    public function __construct(PostCreator $postCreator, FileUploader $fileUploader, FileDestructor $fileDestructor)
     {
         $this->postCreator = $postCreator;
         $this->fileUploader = $fileUploader;
-        $this->directory = $container->get('settings')['upload'];
+        $this->fileDestructor = $fileDestructor;
     }
 
     public function __invoke(
@@ -37,8 +38,8 @@ final class CreatePost
         } catch (ValidationException $e) {
             $result["message"] = $e->getMessage();
             $result["errors"] = $e->getErrors();
-            if (isset($fileName) && file_exists($this->directory . DIRECTORY_SEPARATOR . $fileName)) {
-                unlink($this->directory . DIRECTORY_SEPARATOR . $fileName);
+            if (isset($fileName) && is_string($fileName)) {
+                $this->fileDestructor->delete($fileName);
             }
         }
 
