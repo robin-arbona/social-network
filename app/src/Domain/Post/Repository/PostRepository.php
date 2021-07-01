@@ -145,7 +145,7 @@ final class PostRepository
                 FROM `post` 
                 INNER JOIN `user` ON `post`.`post_fk_user_id` = `user`.`user_pk_id` 
                 WHERE post_fk_user_id = $userId 
-                ORDER BY `post`.`post_date` ASC
+                ORDER BY `post`.`post_date` DESC
                 LIMIT $limit OFFSET $offset;";
         return $this->connection->query($sql)->fetchAll();
     }

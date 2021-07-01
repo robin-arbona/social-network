@@ -24,7 +24,11 @@ final class FileDestructor
 
     public function delete(string $fileName)
     {
+        if (!is_string($fileName) || (strlen($fileName) == 0)) {
+            return;
+        }
         if (file_exists($this->directory . DIRECTORY_SEPARATOR . $fileName)) {
+            var_dump($fileName);
             unlink($this->directory . DIRECTORY_SEPARATOR . $fileName);
         }
     }
