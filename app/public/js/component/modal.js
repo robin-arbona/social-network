@@ -36,10 +36,10 @@ const closeModal = (reload) => {
     document.querySelector(".modal").classList.toggle("is-active");
 
     removeAllChildNodes(document.querySelector("#modal-content"));
+    document.querySelector("#modal-title").innerText = "";
+    document.querySelector('#modal-footer').innerText = "";
 
     if(reload){
-        document.querySelector("#modal-title").innerHTML = "";
-        document.querySelector("#modal-content").innerHTML = "";
         postsLoader.reset()
     }
 

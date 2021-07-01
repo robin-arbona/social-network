@@ -168,9 +168,8 @@ const editPost = async (id) => {
     const fragment = createFragment(content);
 
     fragment.querySelector('.textarea').value = post.post.post_content;
-    fragment.querySelector('.input-picture').value = post.post.post_picture;
+    fragment.querySelector('.input-picture').remove();
     fragment.querySelector('.input-name').value = post.post.post_name;
-    // fragment.querySelector('.form-modal').setAttribute('method','PUT');
 
     displayModal("Edit post",fragment,'edit/'+id);
 }

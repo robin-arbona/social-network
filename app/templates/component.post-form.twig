@@ -1,15 +1,28 @@
 <div class="container">
-    <form class="form-modal" action="/post" method="POST">
+    <form class="form-modal" action="/post" method="POST" enctype="multipart/form-data">
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
             <input class="input input-name" type="text" name="name" placeholder="Text input">
             </div>
         </div>
-        <div class="field">
+        <div class="field input-picture">
             <label class="label">Picture</label>
-            <div class="control">
-            <input class="input input-picture" type="text" name="picture" placeholder="Picture file name">
+            <div class="file has-name">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="picture">
+                    <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Choose a file…
+                    </span>
+                    </span>
+                    <span class="file-name">
+                        Cover picture
+                    </span>
+                </label>
             </div>
         </div>
         <div class="field">

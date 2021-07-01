@@ -29,14 +29,17 @@ final class PostCreator
      * Create a new post.
      *
      * @param array $data The form data
+     * 
+     * @param filename or false if there is no file to upload
      *
      */
-    public function createPost(array $data): array
+    public function createPost(array $data, $fileName): array
     {
 
         $this->validateNewPost($data);
 
         $data["post_fk_user_id"] = $_SESSION["user"]["id"];
+        $data["picture"] = $fileName;
 
         $id = $this->repository->newPost($data);
 

@@ -64,13 +64,11 @@ final class PostRepository
     {
         $row = [
             'post_name' => htmlspecialchars($post['name']),
-            'post_picture' => htmlspecialchars($post['picture']),
             'post_content' => htmlspecialchars($post['content']),
             'post_pk_id' => htmlspecialchars($postId)
         ];
         $sql = "UPDATE post SET 
                 post_name=:post_name, 
-                post_picture=:post_picture, 
                 post_content=:post_content
                 WHERE post_pk_id=:post_pk_id;";
 

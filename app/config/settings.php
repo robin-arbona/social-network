@@ -15,6 +15,7 @@ $settings = [];
 $settings['root'] = dirname(__DIR__);
 $settings['temp'] = $settings['root'] . '/tmp';
 $settings['public'] = $settings['root'] . '/public';
+$settings['upload'] = $settings['root'] . '/public/image/upload';
 $settings['urlPublic'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
 $settings['urlMain'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/');
 
