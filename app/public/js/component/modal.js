@@ -8,7 +8,7 @@ const initModal = ()=>{
 const displayModal = (title,content,param = null) => {
     const path = document.querySelector('#pathMain').value;
 
-    title & (document.querySelector("#modal-title").innerHTML = title);
+    title & (document.querySelector("#modal-title").innerText = title);
     content & (document.querySelector("#modal-content").appendChild(content));
     let form = document.querySelector(".form-modal");
     if(param != null){
@@ -25,7 +25,7 @@ const displayModal = (title,content,param = null) => {
                 const element = result.errors[key];
                 message +=  key + '-->' + element + '. ';
             }
-            document.querySelector("#modal-footer").innerHTML = message;
+            document.querySelector("#modal-footer").innerText = message;
         }
  
     });

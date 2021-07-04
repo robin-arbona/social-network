@@ -5,7 +5,7 @@ export default class MemberList {
         this.getList();
     }
     async getList(){
-        this.members = await fetch(this.path + '/users').then(r => r.json())
+        this.members = await fetch(this.path + '/users').then(response => response.json())
         this.members.data.forEach(member => this.displayMember(member))
     }
     displayMember(member){
