@@ -39,7 +39,7 @@ return function (App $app) {
 
 
     // User(s)
-    $app->get('/user[/{user_id:[0-9]+}]', \App\Action\GetUser::class);
+    $app->get('/user/{user_id:[0-9]+}', \App\Action\GetUser::class);
 
     $app->get('/users', \App\Action\GetUsers::class);
 
