@@ -3,7 +3,10 @@
 namespace App\Domain\User\Service;
 
 use App\Domain\User\Repository\UserRepository;
+use App\Exception\AuthorizationException;
 use App\Exception\ValidationException;
+
+use function PHPUnit\Framework\throwException;
 
 /**
  * Service.
@@ -16,13 +19,19 @@ final class UserCreator
     private $repository;
 
     /**
+     * @var UserCheckRight
+     */
+    private $userCheckRights;
+
+    /**
      * The constructor.
      *
      * @param UserRepository $repository The repository
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $repository, UserCheckRights $userCheckRights)
     {
         $this->repository = $repository;
+        $this->userCheckRights = $userCheckRights;
     }
 
     /**
@@ -32,7 +41,7 @@ final class UserCreator
      *
      * @return int The new user ID
      */
-    public function createUser(array $data): int
+    public function createOrGetUser(array $data): int
     {
 
         if (!$id = $this->repository->userInDb($data)) {
@@ -41,6 +50,11 @@ final class UserCreator
 
         $_SESSION["user"] = $data;
         $_SESSION["user"]["id"] = (int) $id;
+        $_SESSION["user"]["rights"] = $this->userCheckRights->check($id);
+        if ($_SESSION["user"]["rights"]["rights_type"] == "NOT_WELCOME") {
+            throw new AuthorizationException('You are not welcome any more');
+        }
+
         return $id;
     }
 

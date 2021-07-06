@@ -1,5 +1,6 @@
 <?php
 
+use Psr\Http\Message\ResponseInterface;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 

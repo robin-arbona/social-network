@@ -68,11 +68,38 @@ final class UserRepository
         return $sth->fetchColumn(0);
     }
 
+    /**
+     * Get all user information
+     * 
+     * @return array 
+     */
     public function getAll()
     {
         $sql = "SELECT * FROM user ORDER BY user_name ASC";
         $sth = $this->connection->prepare($sql);
         $sth->execute();
         return $sth->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get user rights information
+     * 
+     * @param int $id
+     * 
+     * @return array
+     */
+    public function checkRights(int $id)
+    {
+        $sql = "SELECT `rights`.`rights_value`, `rights`.`rights_type` 
+        FROM `rights` 
+        INNER JOIN `user` 
+        ON `user`.`user_fk_rights_id` = `rights`.`rights_pk_id` 
+        WHERE `user`.`user_pk_id` = :id";
+        $row = [
+            ":id" => $id
+        ];
+        $sth = $this->connection->prepare($sql);
+        $sth->execute($row);
+        return $sth->fetch(PDO::FETCH_ASSOC);
     }
 }

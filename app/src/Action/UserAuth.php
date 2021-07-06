@@ -3,6 +3,7 @@
 namespace App\Action;
 
 use App\Domain\User\Service\UserGoogleVerificator;
+use App\Exception\AuthorizationException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -23,12 +24,13 @@ final class UserAuth
         // Collect input from the HTTP request
         $data = (array)$request->getParsedBody();
 
-        $result = $this->userGoogleVerificator->verifyIdToken($data);
-
-        if ($result["success"]) {
-            $status = 201;
-        } else {
-            $status = 401;
+        try {
+            $result = $this->userGoogleVerificator->verifyIdToken($data);
+            $status = $result["success"] ? 201 : 401;
+        } catch (AuthorizationException $e) {
+            $result["success"] = false;
+            $result["message"] = $e->getMessage();
+            $status = $e->getCode();
         }
 
         // Build the HTTP response

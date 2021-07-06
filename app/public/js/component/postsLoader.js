@@ -200,7 +200,7 @@ const editPost = async (id) => {
 
   fragment.querySelector(".textarea").value = post.post.post_content;
   fragment.querySelector(".input-picture").remove();
-  fragment.querySelector(".input-name").value = post.post.post_name;
+  fragment.querySelector(".input-name").innerText = post.post.post_name;
 
   displayModal("Edit post", fragment, "edit/" + id);
 };

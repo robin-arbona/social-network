@@ -5,7 +5,6 @@ namespace App\Exception;
 use RuntimeException;
 use Throwable;
 
-use function PHPUnit\Framework\callback;
 
 final class ValidationException extends RuntimeException
 {

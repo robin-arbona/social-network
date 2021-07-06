@@ -24,6 +24,11 @@ async function onSignIn(googleUser) {
         }
     } else {
         console.error('Connexion failed',response)
+
+        let json = await response.json();
+
+        document.querySelector(".user-message").innerText = json.message;
+        document.querySelector('.g-signin2').remove();
     }
 }
 

@@ -50,7 +50,7 @@ final class UserGoogleVerificator
 
         if ($payload) {
             $result["success"] = true;
-            $result["id"] = $this->userCreator->createUser($payload);
+            $result["id"] = $this->userCreator->createOrGetUser($payload);
             $result["message"] = "Token successfully verified.";
         } else {
             $result["success"] = false;
