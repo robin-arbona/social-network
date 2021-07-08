@@ -51,6 +51,7 @@ final class UserGoogleVerificator
         if ($payload) {
             $result["success"] = true;
             $result["id"] = $this->userCreator->createOrGetUser($payload);
+            $result["rights_type"] = $_SESSION["user"]["rights"]["rights_type"];
             $result["message"] = "Token successfully verified.";
         } else {
             $result["success"] = false;

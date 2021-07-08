@@ -64,6 +64,9 @@ final class PostEditor
         $errors = [];
 
         // Check if admin 
+        if ($_SESSION['user']['rights']['rights_type'] == 'ADMINISTRATOR') {
+            return;
+        }
 
         // Check if post owner
         if ($this->repository->getOwner($postId) != $_SESSION["user"]["id"]) {

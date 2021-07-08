@@ -83,7 +83,7 @@ const formatPost = (post) => {
   const postLikes = formatLikes(post.likes, post.post_pk_id, "post");
   const userId = sessionStorage.getItem("user_id");
 
-  const owner = userId == post.post_fk_user_id ? true : "";
+  const owner = ((userId == post.post_fk_user_id) || sessionStorage.getItem('rights_type') == 'ADMINISTRATOR') ? true : "";
   const editButton = `<a href="#" onClick="editPost(${post.post_pk_id})">Edit</a>`;
   const deleteButton = `<a href="#" onClick="deletePost(${post.post_pk_id})">Delete</a>`;
 
@@ -200,7 +200,7 @@ const editPost = async (id) => {
 
   fragment.querySelector(".textarea").value = post.post.post_content;
   fragment.querySelector(".input-picture").remove();
-  fragment.querySelector(".input-name").innerText = post.post.post_name;
+  fragment.querySelector(".input-name").value = post.post.post_name;
 
   displayModal("Edit post", fragment, "edit/" + id);
 };

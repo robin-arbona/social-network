@@ -18,6 +18,7 @@ async function onSignIn(googleUser) {
         let json = await response.json();
 
         sessionStorage.setItem('user_id',json.id)
+        sessionStorage.setItem('rights_type',json.rights_type)
 
         if (window.location.href.slice(-1) == '/') {
             window.location = path + "/wall";
