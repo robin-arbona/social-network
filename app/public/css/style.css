@@ -43,3 +43,12 @@ html,body  {
 .is-cover{
     object-fit: cover;
 }
+
+.is-centered{
+    justify-self: center;
+    align-self: center;
+}
+
+.is-grid{
+    display: grid;
+}

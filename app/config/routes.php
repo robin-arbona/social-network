@@ -42,6 +42,8 @@ return function (App $app) {
     // User(s)
     $app->get('/user/{user_id:[0-9]+}', \App\Action\GetUser::class);
 
+    $app->put('/user_rights/{user_id:[0-9]+}/{rights_pk_id:[0-9]+}', \App\Action\SetRights::class);
+
     $app->get('/users', \App\Action\GetUsers::class);
 
 

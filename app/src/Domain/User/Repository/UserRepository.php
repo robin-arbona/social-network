@@ -78,6 +78,7 @@ final class UserRepository
         $sql = "SELECT * 
                 FROM `user` 
                 INNER JOIN `rights` 
+                ON `rights`.`rights_pk_id` = `user`.`user_fk_rights_id` 
                 ORDER BY user_name ASC";
         $sth = $this->connection->prepare($sql);
         $sth->execute();
@@ -104,5 +105,24 @@ final class UserRepository
         $sth = $this->connection->prepare($sql);
         $sth->execute($row);
         return $sth->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Set user rights
+     * 
+     * @param int $user_id
+     * 
+     * @param int $user_fk_rights_id
+     */
+    public function setRights(int $user_id, int $user_fk_rights_id)
+    {
+        $sql = "UPDATE `user` 
+                SET `user_fk_rights_id`= :user_fk_rights_id 
+                WHERE `user_pk_id`= :user_pk_id;";
+        $row = [
+            ":user_pk_id" => $user_id,
+            ":user_fk_rights_id" => $user_fk_rights_id
+        ];
+        return $this->connection->prepare($sql)->execute($row);
     }
 }
