@@ -21,6 +21,8 @@ final class PageConnexion extends PageTwig
         ResponseInterface $response
     ): ResponseInterface {
 
+        session_unset();
+
         return $this->twig->render($response, 'page.connexion.twig');
     }
 }

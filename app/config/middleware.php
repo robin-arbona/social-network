@@ -1,5 +1,6 @@
 <?php
 
+use App\Middleware\ValideSessionMiddleware;
 use Selective\BasePath\BasePathMiddleware;
 use Slim\App;
 use Slim\Middleware\ErrorMiddleware;
@@ -18,4 +19,7 @@ return function (App $app) {
 
     // Catch exceptions and errors
     $app->add(ErrorMiddleware::class);
+
+    // Trying my middleware
+    $app->add(ValideSessionMiddleware::class);
 };
