@@ -8,9 +8,6 @@ export default class MemberList {
     async getList(){
         this.members = await fetch(this.path + '/users').then(response => response.json())
         this.members.data.forEach(member => this.displayMember(member))
-        if(this.rights_type == 'ADMINISTRATOR' ){
-
-        }
     }
     displayMember(member){
         let newEl = document.createElement('div');
