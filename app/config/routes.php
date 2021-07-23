@@ -49,4 +49,7 @@ return function (App $app) {
 
     // Voting
     $app->post('/vote', \App\Action\Vote::class);
+
+    //Profil
+    $app->get('/profil', \App\Page\PageProfil::class);
 };

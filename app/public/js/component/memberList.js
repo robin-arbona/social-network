@@ -1,22 +1,22 @@
 export default class MemberList {
-    constructor({path,rootEl}){
+    constructor({ path, rootEl }) {
         this.path = path;
         this.rootEl = rootEl;
         this.rights_type = sessionStorage.getItem('rights_type')
         this.getList();
     }
-    async getList(){
+    async getList() {
         this.members = await fetch(this.path + '/users').then(response => response.json())
         this.members.data.forEach(member => this.displayMember(member))
     }
-    displayMember(member){
+    displayMember(member) {
         let newEl = document.createElement('div');
         newEl.innerHTML = this.formatMember(member);
         newEl.classList.add('is-grid');
         this.rootEl.appendChild(newEl);
     }
-    formatMember(member){
-        const rights = ( this.rights_type == 'ADMINISTRATOR' ) 
+    formatMember(member) {
+        const rights = (this.rights_type == 'ADMINISTRATOR')
             ? this.formatRights(member)
             : '';
 
@@ -35,7 +35,7 @@ export default class MemberList {
         ${rights}
         <hr />`
     }
-    formatRights(member){
+    formatRights(member) {
         return `
         <div class="select is-small is-rounded is-danger is-centered">
             <select name="RIGHTS" onChange="handleChange(event, ${member.user_pk_id})">
@@ -49,13 +49,13 @@ export default class MemberList {
     }
 }
 
-function handleChange(event,user_id){
+function handleChange(event, user_id) {
     console.log(event.target.value);
     console.log(user_id);
     let url = '/user_rights/' + user_id + '/' + event.target.value;
-    fetch(url,{
+    fetch(url, {
         method: 'PUT'
-    }).then(r=>r.json()).then(json=>console.log(json))
+    }).then(r => r.json()).then(json => console.log(json))
 }
 
 window.handleChange = handleChange;

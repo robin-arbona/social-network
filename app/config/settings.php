@@ -16,8 +16,8 @@ $settings['root'] = dirname(__DIR__);
 $settings['temp'] = $settings['root'] . '/tmp';
 $settings['public'] = $settings['root'] . '/public';
 $settings['upload'] = $settings['root'] . '/public/image/upload';
-$settings['urlPublic'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-$settings['urlMain'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/');
+$settings['urlPublic'] = '';
+$settings['urlMain'] = '';
 
 // Client ID google auth
 $settings['CLIENT_ID'] =  '779360460594-5hbuevfqve7uur0a2ds2284se901qf2l.apps.googleusercontent.com';
@@ -31,7 +31,7 @@ $settings['db'] = [
     'host' => 'localhost',
     'username' => 'root',
     'database' => 'social-network',
-    'password' => '',
+    'password' => 'Domi26121958!',
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_unicode_ci',
     'flags' => [
